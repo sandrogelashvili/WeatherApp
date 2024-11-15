@@ -1,0 +1,37 @@
+# macOS System Files
+.DS_Store
+
+# Xcode Build Directories
+build/
+DerivedData/
+
+# Swift Package Manager
+.swiftpm/
+.build/
+
+# Local Environment Configurations
+.env.local
+
+# Archives
+*.xcarchive
+
+# Temporary files created by Xcode
+*.moved-aside
+*.swp
+*.swm
+*.swo
+*.tmp
+*~
+
+# Generated files
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Symbols
+*.bcsymbolmap
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
