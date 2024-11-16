@@ -23,6 +23,7 @@ DerivedData/
 *.tmp
 *~
 *.xcuserdatad/
+*.xcuserstate
 
 # Generated files
 *.hmap
