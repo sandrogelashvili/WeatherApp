@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 private enum Constants {
     static let titleFontSize: CGFloat = 28
@@ -26,14 +27,14 @@ final class OnboardingViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var imageView: UIImageView = {
+    private var imageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    private lazy var titleLabel: UILabel = {
+    private var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: Constants.titleFontSize, weight: .bold)
@@ -42,7 +43,7 @@ final class OnboardingViewController: UIViewController {
         return label
     }()
     
-    private lazy var descriptionLabel: UILabel = {
+    private var descriptionLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = .max
@@ -52,7 +53,7 @@ final class OnboardingViewController: UIViewController {
         return label
     }()
     
-    private lazy var pageIndicator: UIPageControl = {
+    private var pageIndicator: UIPageControl = {
         let pageIndicator = UIPageControl()
         pageIndicator.translatesAutoresizingMaskIntoConstraints = false
         pageIndicator.currentPageIndicatorTintColor = .neutralBlack
@@ -61,13 +62,12 @@ final class OnboardingViewController: UIViewController {
         return pageIndicator
     }()
     
-    private lazy var actionButton: UIButton = {
+    private var actionButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(handleButtonAction), for: .touchUpInside)
         button.backgroundColor = .neutralBlack
         button.tintColor = .neutralWhite
-        button.layer.cornerRadius = CornerRadius.l
+        button.layer.cornerRadius = CornerRadius.xl
         return button
     }()
     
@@ -89,48 +89,47 @@ final class OnboardingViewController: UIViewController {
     
     private func addImageView() {
         view.addSubview(imageView)
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Space.xl5),
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: Constants.costumeImageSize),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
-        ])
+        imageView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(Space.xl5)
+            make.centerX.equalTo(view)
+            make.width.equalTo(view).multipliedBy(0.75)
+            make.height.equalTo(imageView.snp.width)
+        }
     }
     
     private func addTitleLabel() {
         view.addSubview(titleLabel)
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Space.xl5),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Space.m),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Space.m)
-        ])
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.bottom).offset(Space.xl5)
+            make.centerX.equalTo(view)
+        }
     }
     
     private func addDescriptionLabel() {
         view.addSubview(descriptionLabel)
-        NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Space.m),
-            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Space.m),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Space.m),
-        ])
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(Space.m)
+            make.centerX.equalTo(view)
+        }
     }
     
     private func addPageIndicator() {
         view.addSubview(pageIndicator)
-        NSLayoutConstraint.activate([
-            pageIndicator.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: Space.xl5),
-            pageIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
+        pageIndicator.snp.makeConstraints { make in
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(Space.xl5)
+            make.centerX.equalTo(view)
+        }
     }
     
     private func addActionButton() {
         view.addSubview(actionButton)
-        NSLayoutConstraint.activate([
-            actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Space.m),
-            actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Space.m),
-            actionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Space.xl3),
-            actionButton.heightAnchor.constraint(equalToConstant: Size.xl6.height)
-        ])
+        actionButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(Space.m)
+            make.trailing.equalToSuperview().offset(-Space.m)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-Space.xl3)
+            make.height.equalTo(Size.xl6.height)
+        }
+        actionButton.addTarget(self, action: #selector(handleButtonAction), for: .touchUpInside)
     }
     
     private func updateUI() {
