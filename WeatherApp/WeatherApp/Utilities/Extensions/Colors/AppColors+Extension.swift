@@ -22,7 +22,6 @@ extension UIColor {
     
     public static var bluePrimary: UIColor {UIColor(hex: 0x226ba3)}
 
-    
     // MARK: - Gray
     
     public static var grayPrimary: UIColor { UIColor(hex: 0x545454) }
