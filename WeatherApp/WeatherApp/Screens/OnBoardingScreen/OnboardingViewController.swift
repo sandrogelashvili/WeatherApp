@@ -9,9 +9,7 @@ import UIKit
 import SnapKit
 
 private enum Constants {
-    static let titleFontSize: CGFloat = 28
-    static let descriptionFontSize: CGFloat = 16
-    static let costumeImageSize: CGFloat = 270
+    static let customImageSize: CGFloat = 270
 }
 
 final class OnboardingViewController: UIViewController {
@@ -23,7 +21,7 @@ final class OnboardingViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(String.requiredErrorText)
     }
     
     private var imageView: UIImageView = {
@@ -36,7 +34,7 @@ final class OnboardingViewController: UIViewController {
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: Constants.titleFontSize, weight: .bold)
+        label.font = .systemFont(ofSize: FontConstants.headline2, weight: .bold)
         label.textColor = .neutralBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -46,7 +44,7 @@ final class OnboardingViewController: UIViewController {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = .max
-        label.font = .systemFont(ofSize: Constants.descriptionFontSize, weight: .regular)
+        label.font = .systemFont(ofSize: FontConstants.body1, weight: .regular)
         label.textColor = .neutralBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

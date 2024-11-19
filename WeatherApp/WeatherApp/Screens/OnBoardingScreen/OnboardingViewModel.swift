@@ -13,25 +13,25 @@ final class OnboardingViewModel {
 
         var title: String {
             switch self {
-            case .firstPage: return "Welcome"
-            case .secondPage: return "Stay Organized"
-            case .thirdPage: return "Get Started"
+            case .firstPage: return String.firstPageTitle
+            case .secondPage: return String.secondPageTitle
+            case .thirdPage: return String.thirdPageTitle
             }
         }
         
         var description: String {
             switch self {
-            case .firstPage: return "Discover new features."
-            case .secondPage: return "Manage tasks with ease."
-            case .thirdPage: return "Let's dive in!"
+            case .firstPage: return String.firstPageDescription
+            case .secondPage: return String.secondPageDescription
+            case .thirdPage: return String.thirdPageDescription
             }
         }
         
         var imageName: String {
             switch self {
-            case .firstPage: return "SunnyDay"
-            case .secondPage: return "SnowyDay"
-            case .thirdPage: return "RainyDay"
+            case .firstPage: return String.firstPageImageName
+            case .secondPage: return String.secondPageImageName
+            case .thirdPage: return String.thirdPageImageName
             }
         }
     }
@@ -56,6 +56,6 @@ final class OnboardingViewModel {
     }
     
     func getButtonTitle() -> String {
-        return currentPageIndex == pages.count - 1 ? "Log In" : "Continue"
+        return currentPageIndex == pages.count - 1 ? String.loginButtonTitle : String.continueButtonTitle
     }
 }

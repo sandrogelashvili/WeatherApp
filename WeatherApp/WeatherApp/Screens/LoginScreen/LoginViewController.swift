@@ -8,41 +8,45 @@
 import UIKit
 import SnapKit
 
-class LoginViewController: UIViewController {
+private enum Constants {
+    static let customStackSpacing: CGFloat = 68
+}
+
+final class LoginViewController: UIViewController {
     private var welcomeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 22, weight: .semibold)
+        label.font = .systemFont(ofSize: FontConstants.headline3, weight: .semibold)
         label.textColor = .neutralBlack
-        label.text = "Welcome!"
+        label.text = String.welcomeLabelText
         return label
     }()
     
     private var enterDetailsLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = .systemFont(ofSize: FontConstants.body1, weight: .regular)
         label.textColor = .neutralBlack
-        label.text = "Please enter your details below"
+        label.text = String.detailsLabelText
         return label
     }()
     
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [welcomeLabel, enterDetailsLabel])
         stackView.axis = .vertical
-        stackView.spacing = 16
+        stackView.spacing = Space.m
         stackView.alignment = .fill
         return stackView
     }()
     
-    private var emailTextFieldView: CostumeTextFieldView = CostumeTextFieldView(
+    private var usernameTextFieldView: CustomTextFieldView = CustomTextFieldView(
         type: .username,
-        labelText: "Username"
+        labelText: String.usernameLabelText
     )
     
-    private var passwordTextFieldView: CostumeTextFieldView = CostumeTextFieldView(
+    private var passwordTextFieldView: CustomTextFieldView = CustomTextFieldView(
         type: .password,
-        labelText: "Password"
+        labelText: String.passwordLabelText
     )
     
     override func viewDidLoad() {
@@ -61,26 +65,26 @@ class LoginViewController: UIViewController {
     private func addStackView() {
         view.addSubview(stackView)
         stackView.snp.makeConstraints { make in
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(16)
-            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-16)
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(68)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(Constants.customStackSpacing)
         }
     }
     
     private func addTextFieldViews() {
-        view.addSubview(emailTextFieldView)
+        view.addSubview(usernameTextFieldView)
         view.addSubview(passwordTextFieldView)
         
-        emailTextFieldView.snp.makeConstraints { make in
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(16)
-            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-16)
-            make.top.equalTo(stackView.snp.bottom).offset(40)
+        usernameTextFieldView.snp.makeConstraints { make in
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
+            make.top.equalTo(stackView.snp.bottom).offset(Space.xl4)
         }
         
         passwordTextFieldView.snp.makeConstraints { make in
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(16)
-            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-16)
-            make.top.equalTo(emailTextFieldView.snp.bottom).offset(20)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
+            make.top.equalTo(usernameTextFieldView.snp.bottom).offset(Space.l)
         }
     }
     
@@ -91,7 +95,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func dismissKeyboard() {
-        emailTextFieldView.getTextField().resignFirstResponder()
+        usernameTextFieldView.getTextField().resignFirstResponder()
         passwordTextFieldView.getTextField().resignFirstResponder()
     }
 }

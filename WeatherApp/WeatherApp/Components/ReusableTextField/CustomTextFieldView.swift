@@ -1,5 +1,5 @@
 //
-//  CostumeTextFieldView.swift
+//  CustomTextFieldView.swift
 //  WeatherApp
 //
 //  Created by Sandro Gelashvili on 19.11.24.
@@ -12,81 +12,82 @@ enum TextFieldType {
     case username, password
 }
 
-class CostumeTextFieldView: UIView {
+final class CustomTextFieldView: UIView {
     private var textFieldType: TextFieldType
     private var isPasswordVisible = false
     
-    private var label: UILabel = {
+    private var reusableLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = .systemFont(ofSize: FontConstants.body2, weight: .medium)
         label.textColor = .neutralBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private var textField: UITextField = {
+    private var reusableTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Enter Username"
+        textField.placeholder = String.usernamePlaceholder
         return textField
     }()
     
     private var visibilityIconButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        button.setImage(UIImage.invisibleIcon, for: .normal)
         button.tintColor = .grayPrimary
         return button
     }()
     
-    private lazy var stackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [label, textField])
+    private lazy var componentsStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [reusableLabel, reusableTextField])
         stack.axis = .vertical
-        stack.spacing = 8
+        stack.spacing = Space.xs
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
     
     
-    init(type: TextFieldType = .username, labelText: String = "") {
+    init(type: TextFieldType = .username, labelText: String = .empty) {
         self.textFieldType = type
         super.init(frame: .zero)
-        
-        label.text = labelText
+        reusableLabel.text = labelText
         setUpUI()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(String.requiredErrorText)
     }
     
     private func setUpUI() {
-        addSubview(stackView)
-        stackView.snp.makeConstraints { make in
+        addSubview(componentsStackView)
+        componentsStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
         if textFieldType == .password {
-            textField.placeholder = "Enter password"
-            textField.isSecureTextEntry = true
-            textField.rightViewMode = .always
-            textField.rightView = visibilityIconButton
+            reusableTextField.placeholder = String.passwordPlaceholder
+            reusableTextField.isSecureTextEntry = true
+            reusableTextField.rightViewMode = .always
+            reusableTextField.rightView = visibilityIconButton
         }
         visibilityIconButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
     }
     
     @objc private func togglePasswordVisibility() {
         isPasswordVisible.toggle()
-        textField.isSecureTextEntry = !isPasswordVisible
-        let iconName = isPasswordVisible ? "eye" : "eye.slash"
-        visibilityIconButton.setImage(UIImage(systemName: iconName), for: .normal)
+        reusableTextField.isSecureTextEntry = !isPasswordVisible
+        visibilityIconButton.setImage(
+            isPasswordVisible ? UIImage.visibleIcon : UIImage.invisibleIcon,
+            for: .normal
+        )
     }
     
     func getTextField() -> UITextField {
-        return textField
+        return reusableTextField
     }
     
     func getLabel() -> UILabel {
-        return label
+        return reusableLabel
     }
 }
