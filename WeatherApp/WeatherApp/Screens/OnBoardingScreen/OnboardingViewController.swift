@@ -59,12 +59,10 @@ final class OnboardingViewController: UIViewController {
         return pageIndicator
     }()
     
-    private var actionButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .neutralBlack
-        button.tintColor = .neutralWhite
-        button.layer.cornerRadius = CornerRadius.xl
+    private var onboardingButton: CustomButton = {
+        let button = CustomButton(
+            title: String.continueButtonTitle
+        )
         return button
     }()
     
@@ -72,6 +70,7 @@ final class OnboardingViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .neutralWhite
         setUpUI()
+        configureButtonAction()
         updateUI()
         addSwipeGestures()
     }
@@ -81,7 +80,7 @@ final class OnboardingViewController: UIViewController {
         addTitleLabel()
         addDescriptionLabel()
         addPageIndicator()
-        addActionButton()
+        addOnboardingButton()
     }
     
     private func addImageView() {
@@ -118,15 +117,14 @@ final class OnboardingViewController: UIViewController {
         }
     }
     
-    private func addActionButton() {
-        view.addSubview(actionButton)
-        actionButton.snp.makeConstraints { make in
+    private func addOnboardingButton() {
+        view.addSubview(onboardingButton)
+        onboardingButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(Space.m)
             make.trailing.equalToSuperview().offset(-Space.m)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-Space.xl3)
             make.height.equalTo(Size.xl6.height)
         }
-        actionButton.addTarget(self, action: #selector(handleButtonAction), for: .touchUpInside)
     }
     
     private func updateUI() {
@@ -138,7 +136,13 @@ final class OnboardingViewController: UIViewController {
         pageIndicator.numberOfPages = viewModel.pages.count
         pageIndicator.currentPage = viewModel.currentPageIndex
         
-        actionButton.setTitle(viewModel.getButtonTitle(), for: .normal)
+        onboardingButton.configure(title: viewModel.getButtonTitle())
+    }
+    
+    private func configureButtonAction() {
+        onboardingButton.setAction { [weak self] in
+            self?.handleButtonAction()
+        }
     }
     
     @objc private func handleButtonAction() {

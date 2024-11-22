@@ -49,17 +49,27 @@ final class LoginViewController: UIViewController {
         labelText: String.passwordLabelText
     )
     
+    private var loginButton: CustomButton = {
+        let button = CustomButton(
+            title: String.loginButtonTitle
+        )
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .neutralWhite
         navigationItem.hidesBackButton = true
         setUpUI()
-        addTextFieldViews()
+        configureButtonAction()
         addTapGestureToDismissKeyboard()
     }
     
     private func setUpUI() {
         addStackView()
+        addUsernameTextField()
+        addPasswordTextField()
+        addLoginButton()
     }
     
     private func addStackView() {
@@ -71,21 +81,43 @@ final class LoginViewController: UIViewController {
         }
     }
     
-    private func addTextFieldViews() {
+    private func addUsernameTextField() {
         view.addSubview(usernameTextFieldView)
-        view.addSubview(passwordTextFieldView)
-        
         usernameTextFieldView.snp.makeConstraints { make in
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
             make.top.equalTo(stackView.snp.bottom).offset(Space.xl4)
         }
-        
+    }
+    
+    private func addPasswordTextField() {
+        view.addSubview(passwordTextFieldView)
         passwordTextFieldView.snp.makeConstraints { make in
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
             make.top.equalTo(usernameTextFieldView.snp.bottom).offset(Space.l)
         }
+    }
+    
+    private func addLoginButton() {
+        view.addSubview(loginButton)
+        loginButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(Space.m)
+            make.trailing.equalToSuperview().offset(-Space.m)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-Space.xl3)
+            make.height.equalTo(Size.xl6.height)
+        }
+    }
+    
+    private func configureButtonAction() {
+        loginButton.setAction { [weak self] in
+            self?.handleLoginButton()
+        }
+    }
+    
+    private func handleLoginButton() {
+        let mainPageView = MainPageView()
+        navigationController?.pushViewController(mainPageView, animated: true)
     }
     
     private func addTapGestureToDismissKeyboard() {
