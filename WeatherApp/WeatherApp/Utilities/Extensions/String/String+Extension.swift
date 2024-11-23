@@ -8,17 +8,17 @@
 import Foundation
 
 extension String {
-    // MARK: - CustomTextFieldView
+    // MARK: - Custom TextField
     static let usernamePlaceholder: String = "Enter Username"
     static let passwordPlaceholder: String = "Enter password"
     
-    // MARK: - LoginViewController
+    // MARK: - Login Screen
     static let welcomeLabelText: String = "Welcome!"
     static let detailsLabelText: String = "Please enter your details below"
     static let usernameLabelText: String = "Username"
     static let passwordLabelText: String = "Password"
     
-    // MARK: - OnboardingViewModel
+    // MARK: - Onboarding Screen
     /// Title
     static let firstPageTitle: String = "Welcome"
     static let secondPageTitle: String = "Stay Organized"
@@ -34,6 +34,10 @@ extension String {
     
     static let loginButtonTitle: String = "Log In"
     static let continueButtonTitle: String = "Continue"
+    
+    // MARK: - MainPage Screen
+    static let searchFieldPlaceHolder: String = "Search for a city"
+    static let searchBarKey: String = "searchField"
     
     // MARK: - General
     static let empty = ""

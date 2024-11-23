@@ -13,6 +13,7 @@ private enum Constants {
 }
 
 final class OnboardingViewController: UIViewController {
+    
     private let viewModel: OnboardingViewModel
     
     init(viewModel: OnboardingViewModel) {

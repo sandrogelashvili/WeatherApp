@@ -7,49 +7,49 @@
 
 import UIKit
 
-class TempStackView: UIView {
+final class TempStackView: UIView {
     
     private var cityLabel: UILabel = {
         let label = UILabel()
         label.textColor = .neutralWhite
-        label.font = UIFont.systemFont(ofSize: 36, weight: .light)
+        label.font = UIFont.systemFont(ofSize: FontConstants.headline1, weight: .light)
         return label
     }()
     
     private var tempLabel: UILabel = {
         let label = UILabel()
         label.textColor = .neutralWhite
-        label.font = UIFont.systemFont(ofSize: 78, weight: .thin)
+        label.font = UIFont.systemFont(ofSize: FontConstants.hugeTitle, weight: .thin)
         return label
     }()
     
     private var skyLabel: UILabel = {
         let label = UILabel()
         label.textColor = .neutralWhite
-        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        label.font = UIFont.systemFont(ofSize: FontConstants.subtitle, weight: .light)
         return label
     }()
     
     private var maxTempLabel: UILabel = {
         let label = UILabel()
         label.textColor = .neutralWhite
-        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        label.font = UIFont.systemFont(ofSize: FontConstants.subtitle, weight: .light)
         return label
     }()
     
     private var minTempLabel: UILabel = {
         let label = UILabel()
         label.textColor = .neutralWhite
-        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        label.font = UIFont.systemFont(ofSize: FontConstants.subtitle, weight: .light)
         return label
     }()
     
     private var tempStackView: UIStackView = {
         let stackView = GlassmorphicStackView(
             axis: .vertical,
-            spacing: 8,
+            spacing: Space.xs,
             alignment: .center,
-            cornerRadius: 16
+            cornerRadius: CornerRadius.xl2
         )
         return stackView
     }()
@@ -57,7 +57,7 @@ class TempStackView: UIView {
     private var maxAndMinTempStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 12
+        stackView.spacing = Space.s
         stackView.alignment = .center
         return stackView
     }()

@@ -7,10 +7,10 @@
 
 import UIKit
 
-class WeatherDetailsStackView: UIView {
+final class WeatherDetailsStackView: UIView {
     
     private var humidityImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "HumidityIcon"))
+        let image = UIImageView(image: UIImage.humidityImage)
         image.contentMode = .scaleAspectFill
         image.tintColor = .white
         return image
@@ -19,12 +19,12 @@ class WeatherDetailsStackView: UIView {
     private var humidityLabel: UILabel = {
         let label = UILabel()
         label.textColor = .neutralWhite
-        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        label.font = UIFont.systemFont(ofSize: FontConstants.subtitle, weight: .light)
         return label
     }()
     
     private var cloudImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "CloudIcon"))
+        let image = UIImageView(image: UIImage.cloudImage)
         image.contentMode = .scaleAspectFill
         image.tintColor = .white
         return image
@@ -33,12 +33,12 @@ class WeatherDetailsStackView: UIView {
     private var cloudLabel: UILabel = {
         let label = UILabel()
         label.textColor = .neutralWhite
-        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        label.font = UIFont.systemFont(ofSize: FontConstants.subtitle, weight: .light)
         return label
     }()
     
     private var windSpeedImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "WindIcon"))
+        let image = UIImageView(image: UIImage.windImage)
         image.contentMode = .scaleAspectFill
         image.tintColor = .white
         return image
@@ -47,16 +47,16 @@ class WeatherDetailsStackView: UIView {
     private var windSpeedLabel: UILabel = {
         let label = UILabel()
         label.textColor = .neutralWhite
-        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        label.font = UIFont.systemFont(ofSize: FontConstants.subtitle, weight: .light)
         return label
     }()
     
     private var detailsStackView: UIStackView = {
         let stackView = GlassmorphicStackView(
             axis: .horizontal,
-            spacing: 50,
+            spacing: Space.xl5,
             alignment: .center,
-            cornerRadius: 16
+            cornerRadius: CornerRadius.xl2
         )
         stackView.distribution = .equalSpacing
         return stackView
@@ -65,7 +65,7 @@ class WeatherDetailsStackView: UIView {
     private var humidityStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 10
+        stackView.spacing = Space.s
         stackView.alignment = .center
         return stackView
     }()
@@ -73,7 +73,7 @@ class WeatherDetailsStackView: UIView {
     private var cloudStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 14
+        stackView.spacing = Space.m
         stackView.alignment = .center
         return stackView
     }()
@@ -81,7 +81,7 @@ class WeatherDetailsStackView: UIView {
     private var windSpeedStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 12
+        stackView.spacing = Space.s
         stackView.alignment = .center
         return stackView
     }()
@@ -117,7 +117,7 @@ class WeatherDetailsStackView: UIView {
         humidityStackView.addArrangedSubview(humidityImage)
         humidityStackView.addArrangedSubview(humidityLabel)
         humidityImage.snp.makeConstraints { make in
-                make.width.height.equalTo(12)
+            make.width.height.equalTo(Size.s.width)
             }
     }
     
@@ -125,7 +125,7 @@ class WeatherDetailsStackView: UIView {
         cloudStackView.addArrangedSubview(cloudImage)
         cloudStackView.addArrangedSubview(cloudLabel)
         cloudImage.snp.makeConstraints { make in
-                make.width.height.equalTo(16)
+            make.width.height.equalTo(Size.m.width)
             }
     }
     
@@ -133,7 +133,7 @@ class WeatherDetailsStackView: UIView {
         windSpeedStackView.addArrangedSubview(windSpeedImage)
         windSpeedStackView.addArrangedSubview(windSpeedLabel)
         windSpeedImage.snp.makeConstraints { make in
-                make.width.height.equalTo(16)
+            make.width.height.equalTo(Size.m.width)
             }
     }
 

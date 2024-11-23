@@ -13,6 +13,7 @@ enum TextFieldType {
 }
 
 final class CustomTextFieldView: UIView {
+    
     private var textFieldType: TextFieldType
     private var isPasswordVisible = false
     

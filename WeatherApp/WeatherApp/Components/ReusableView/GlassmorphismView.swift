@@ -7,11 +7,15 @@
 
 import UIKit
 
-class GlassmorphicStackView: UIStackView {
+private enum Constants {
+    static let alphaComponent: CGFloat = 0.1
+}
+
+final class GlassmorphicStackView: UIStackView {
     
     private var blurView = UIVisualEffectView()
     
-    init(axis: NSLayoutConstraint.Axis = .vertical, spacing: CGFloat = 8, alignment: Alignment = .center, cornerRadius: CGFloat = 16) {
+    init(axis: NSLayoutConstraint.Axis = .vertical, spacing: CGFloat = Space.m, alignment: Alignment = .center, cornerRadius: CGFloat = CornerRadius.xl2) {
         super.init(frame: .zero)
         self.axis = axis
         self.spacing = spacing
@@ -22,11 +26,11 @@ class GlassmorphicStackView: UIStackView {
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
-        applyGlassmorphism(cornerRadius: 16)
+        applyGlassmorphism(cornerRadius: CornerRadius.xl2)
     }
     
     private func applyGlassmorphism(cornerRadius: CGFloat) {
-        self.backgroundColor = UIColor.white.withAlphaComponent(0.1)
+        self.backgroundColor = UIColor.white.withAlphaComponent(Constants.alphaComponent)
         
         let blurEffect = UIBlurEffect(style: .light)
         blurView = UIVisualEffectView(effect: blurEffect)
@@ -35,7 +39,7 @@ class GlassmorphicStackView: UIStackView {
         self.addSubview(blurView)
         self.sendSubviewToBack(blurView)
         
-        self.layoutMargins = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+        self.layoutMargins = UIEdgeInsets(top: Space.s, left: Space.m, bottom: Space.s, right: Space.m)
         self.isLayoutMarginsRelativeArrangement = true
         self.layer.cornerRadius = cornerRadius
         self.clipsToBounds = true
