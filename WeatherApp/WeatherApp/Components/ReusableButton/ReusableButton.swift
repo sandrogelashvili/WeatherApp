@@ -8,6 +8,7 @@
 import UIKit
 
 final class CustomButton: UIButton {
+    
     private var actionClosure: (() -> Void)?
     
     init(

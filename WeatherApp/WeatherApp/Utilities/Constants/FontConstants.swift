@@ -8,6 +8,8 @@
 import Foundation
 
 public enum FontConstants {
+    /// 78
+    public static var hugeTitle: CGFloat = 78
     /// 34
     public static var headline1: CGFloat = 34
     /// 28

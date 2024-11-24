@@ -13,6 +13,7 @@ private enum Constants {
 }
 
 final class LoginViewController: UIViewController {
+    
     private var welcomeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left

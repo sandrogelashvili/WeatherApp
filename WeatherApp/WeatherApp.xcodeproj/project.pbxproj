@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0884958A2CF1EE28002B592E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 088495892CF1EE28002B592E /* Alamofire */; };
 		08C339AD2CEC9B5200229A48 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08C339AC2CEC9B5200229A48 /* SnapKit */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08C339AD2CEC9B5200229A48 /* SnapKit in Frameworks */,
+				0884958A2CF1EE28002B592E /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +86,7 @@
 			name = WeatherApp;
 			packageProductDependencies = (
 				08C339AC2CEC9B5200229A48 /* SnapKit */,
+				088495892CF1EE28002B592E /* Alamofire */,
 			);
 			productName = WeatherApp;
 			productReference = 08611B1F2CE797F200DC13C0 /* WeatherApp.app */;
@@ -115,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				08C339AB2CEC9B5200229A48 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				088495882CF1EE28002B592E /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08611B202CE797F200DC13C0 /* Products */;
@@ -154,6 +158,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 863JKHR7M8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -180,6 +185,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 863JKHR7M8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -342,6 +348,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		088495882CF1EE28002B592E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.1;
+			};
+		};
 		08C339AB2CEC9B5200229A48 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -353,6 +367,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		088495892CF1EE28002B592E /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 088495882CF1EE28002B592E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		08C339AC2CEC9B5200229A48 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 08C339AB2CEC9B5200229A48 /* XCRemoteSwiftPackageReference "SnapKit" */;

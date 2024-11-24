@@ -8,6 +8,7 @@
 import Foundation
 
 final class OnboardingViewModel {
+    
     enum Page: CaseIterable {
         case firstPage, secondPage, thirdPage
 
