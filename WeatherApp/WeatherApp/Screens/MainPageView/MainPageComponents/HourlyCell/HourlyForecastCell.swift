@@ -44,7 +44,7 @@ final class HourlyForecastCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(String.requiredErrorText)
     }
     
     private func setUpUI() {

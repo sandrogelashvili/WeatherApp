@@ -39,7 +39,9 @@ extension String {
     static let searchFieldPlaceHolder: String = "Search for a city"
     static let searchBarKey: String = "searchField"
     static let hourlyCellIdentifier: String = "HourlyForecastCell"
-    
+    static let weeklyButtonString: String = "Weekly"
+    static let errorAlertTitle: String = "Oops"
+    static let errorAlertButtonTitle: String = "OK"
     // MARK: - General
     static let empty = ""
     static let requiredErrorText: String = "init(coder:) has not been implemented"

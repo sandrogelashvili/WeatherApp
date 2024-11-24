@@ -12,7 +12,7 @@ import CoreLocation
 final class MainPageViewModel: NSObject {
     private let locationManager = CLLocationManager()
     private let apiKey = "daa29d04297d8a956e6a6671e018757e"
-    private(set) var currentWeather: WeatherResponse?
+    private(set) var currentWeather: CurrentWeatherResponse?
     private(set) var city: String = "Tbilisi"
     var currentLocation: CLLocation?
     var onWeatherDataUpdated: (() -> Void)?
@@ -35,7 +35,7 @@ final class MainPageViewModel: NSObject {
     func fetchWeatherData(for city: String) {
         let url = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(apiKey)&units=metric"
         
-        AF.request(url).responseDecodable(of: WeatherResponse.self) { [weak self] response in
+        AF.request(url).responseDecodable(of: CurrentWeatherResponse.self) { [weak self] response in
             switch response.result {
             case .success(let weatherResponse):
                 self?.currentWeather = weatherResponse

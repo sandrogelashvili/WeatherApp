@@ -1,5 +1,5 @@
 //
-//  MainPageModel.swift
+//  CurrentWeatherResponse.swift
 //  WeatherApp
 //
 //  Created by Sandro Gelashvili on 24.11.24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherResponse: Decodable {
+struct CurrentWeatherResponse: Decodable {
     let name: String?
     let weather: [Weather]
     let main: MainWeather

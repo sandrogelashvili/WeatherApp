@@ -11,7 +11,7 @@ private enum Constants {
     static let pointX: CGFloat = 0.5
     static let endPointY: CGFloat = 1.0
     static let alphaComponent: CGFloat = 0.3
-    static let customImageSize: CGFloat = 200
+    static let customSizeButtonStack: CGFloat = 160
 }
 
 final class MainPageView: UIViewController {
@@ -24,10 +24,34 @@ final class MainPageView: UIViewController {
         return searchController
     }()
     
-    private var sunImage: UIImageView = {
-        let image = UIImageView(image: UIImage.sunImage)
-        image.contentMode = .scaleAspectFill
-        return image
+    private var buttonsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.backgroundColor = UIColor.clear
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
+    
+    private var locationButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage.locationButtonIcon, for: .normal)
+        button.tintColor = .white
+        return button
+    }()
+    
+    private var weeklyForecastButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle(String.weeklyButtonString, for: .normal)
+        button.setImage(UIImage.leftArrowButtonIcon, for: .normal)
+        button.tintColor = .nightColorDark
+        button.backgroundColor = .white
+        button.layer.cornerRadius = CornerRadius.m
+        button.semanticContentAttribute = .forceRightToLeft
+        var configuration = UIButton.Configuration.plain()
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: .zero, bottom: .zero, trailing: Space.xs)
+        button.configuration = configuration
+        return button
     }()
     
     private var tempStackView: TempStackView = {
@@ -40,57 +64,38 @@ final class MainPageView: UIViewController {
         return stackView
     }()
     
-    private var hourlyForecastView: HourlyForecastView = {
-        let hourlyView = HourlyForecastView()
-        return hourlyView
-    }()
+//    private var hourlyForecastView: HourlyForecastView = {
+//        let hourlyView = HourlyForecastView()
+//        return hourlyView
+//    }()
     
-    private var locationButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "location.circle.fill"), for: .normal)
-        button.tintColor = .white
-        return button
-    }()
-    
-    let exampleForecasts = [
-        ("15°", "sun", "15:00"),
-        ("16°", "sun", "16:00"),
-        ("14°", "sun", "17:00"),
-        ("12°", "sun", "18:00"),
-        ("14°", "sun", "11:00"),
-        ("15°", "sun", "12:00"),
-        ("16°", "sun", "13:00"),
-        ("17°", "sun", "14:00"),
-        ("18°", "sun", "15:00"),
-        ("19°", "sun", "16:00"),
-        ("11°", "sun", "17:00"),
-    ]
+//    let exampleForecasts = [
+//        ("15°", "sun", "15:00"),
+//        ("16°", "sun", "16:00"),
+//        ("14°", "sun", "17:00"),
+//        ("12°", "sun", "18:00"),
+//        ("14°", "sun", "11:00"),
+//        ("15°", "sun", "12:00"),
+//        ("16°", "sun", "13:00"),
+//        ("17°", "sun", "14:00"),
+//        ("18°", "sun", "15:00"),
+//        ("19°", "sun", "16:00"),
+//        ("11°", "sun", "17:00"),
+//    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "DayColorDark")
         navigationItem.searchController = searchController
         definesPresentationContext = true
         navigationItem.hidesBackButton = true
-        setGradientBackground()
         customizeSearchBarAppearance()
         setUpUI()
-        fetchWeatherData()
+//        fetchWeatherData()
         setupViewModelBindings()
         searchController.searchBar.delegate = self
-        addActionLocationButton()
-    }
-    
-    private func setGradientBackground() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = view.bounds
-        gradientLayer.colors = [
-            UIColor(#colorLiteral(red: 0.1271144748, green: 0.3459367156, blue: 0.5822487473, alpha: 1)).cgColor,
-            UIColor(#colorLiteral(red: 0.5082734227, green: 0.6511721015, blue: 0.8018501401, alpha: 1)).cgColor
-        ]
-        gradientLayer.startPoint = CGPoint(x: Constants.pointX, y: .zero)
-        gradientLayer.endPoint = CGPoint(x: Constants.pointX, y: Constants.endPointY)
-        view.layer.insertSublayer(gradientLayer, at: .zero)
+        locationButtonAction()
+        weeklyForecastButtonAction()
     }
     
     private func customizeSearchBarAppearance() {
@@ -111,30 +116,21 @@ final class MainPageView: UIViewController {
     }
     
     private func setUpUI() {
-        addImage()
-        addLocationButton()
+        addButtonsStackView()
         addTempStackView()
         addWeatherDetailsStackView()
-        addHourlyForecastStackView()
-        
+//        addHourlyForecastStackView()
     }
     
-    private func addLocationButton() {
-        view.addSubview(locationButton)
-        locationButton.snp.makeConstraints { make in
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.s)
-            make.top.equalTo(view.snp.top).offset(175)
-            make.width.height.equalTo(40)
+    private func addButtonsStackView() {
+        view.addSubview(buttonsStackView)
+        buttonsStackView.snp.makeConstraints { make in
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
+            make.top.equalTo(view.snp.top).offset(Constants.customSizeButtonStack)
         }
-    }
-    
-    private func addImage() {
-        view.addSubview(sunImage)
-        sunImage.snp.makeConstraints { make in
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.s)
-            make.top.equalTo(view.snp.top).offset(Space.s)
-            make.width.height.equalTo(Constants.customImageSize)
-        }
+        buttonsStackView.addArrangedSubview(locationButton)
+        buttonsStackView.addArrangedSubview(weeklyForecastButton)
     }
     
     private func addTempStackView() {
@@ -142,7 +138,7 @@ final class MainPageView: UIViewController {
         tempStackView.snp.makeConstraints { make in
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
-            make.top.equalTo(sunImage.snp.bottom).offset(Space.xl3)
+            make.top.equalTo(buttonsStackView.snp.bottom).offset(Space.xl2)
         }
     }
     
@@ -155,21 +151,21 @@ final class MainPageView: UIViewController {
         }
     }
     
-    private func addHourlyForecastStackView() {
-        view.addSubview(hourlyForecastView)
-        hourlyForecastView.snp.makeConstraints { make in
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
-            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
-            make.top.equalTo(weatherDetailsStackView.snp.bottom).offset(Space.xl3)
-        }
-    }
+//    private func addHourlyForecastStackView() {
+//        view.addSubview(hourlyForecastView)
+//        hourlyForecastView.snp.makeConstraints { make in
+//            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
+//            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
+//            make.top.equalTo(weatherDetailsStackView.snp.bottom).offset(Space.xl3)
+//        }
+//    }
     
-    private func fetchWeatherData() {
-        hourlyForecastView.updateHourly(
-            date: "November 23",
-            forecasts: exampleForecasts
-        )
-    }
+//    private func fetchWeatherData() {
+//        hourlyForecastView.updateHourly(
+//            date: "November 23",
+//            forecasts: exampleForecasts
+//        )
+//    }
     
     private func setupViewModelBindings() {
         mainPageViewModel.onWeatherDataUpdated = { [weak self] in
@@ -181,8 +177,8 @@ final class MainPageView: UIViewController {
     }
     
     private func showErrorAlert(message: String) {
-        let alertController = UIAlertController(title: "Oops", message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        let alertController = UIAlertController(title: String.errorAlertTitle, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: String.errorAlertButtonTitle, style: .default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -202,7 +198,7 @@ final class MainPageView: UIViewController {
         )
     }
     
-    private func addActionLocationButton() {
+    private func locationButtonAction() {
         locationButton.addTarget(self, action: #selector(locationButtonPressed), for: .touchUpInside)
     }
     
@@ -218,6 +214,15 @@ final class MainPageView: UIViewController {
             }
             mainPageViewModel.requestLocation()
         }
+    }
+    
+    private func weeklyForecastButtonAction() {
+        weeklyForecastButton.addTarget(self, action: #selector(weeklyForecastButtonPressed), for: .touchUpInside)
+    }
+    
+    @objc private func weeklyForecastButtonPressed() {
+        let weeklyForecastViewController = WeeklyForecastViewController()
+        navigationController?.pushViewController(weeklyForecastViewController, animated: true)
     }
 }
 
