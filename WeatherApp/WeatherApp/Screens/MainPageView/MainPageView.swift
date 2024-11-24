@@ -45,6 +45,13 @@ final class MainPageView: UIViewController {
         return hourlyView
     }()
     
+    private var locationButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "location.circle.fill"), for: .normal)
+        button.tintColor = .white
+        return button
+    }()
+    
     let exampleForecasts = [
         ("15°", "sun", "15:00"),
         ("16°", "sun", "16:00"),
@@ -71,6 +78,7 @@ final class MainPageView: UIViewController {
         fetchWeatherData()
         setupViewModelBindings()
         searchController.searchBar.delegate = self
+        addActionLocationButton()
     }
     
     private func setGradientBackground() {
@@ -104,9 +112,20 @@ final class MainPageView: UIViewController {
     
     private func setUpUI() {
         addImage()
+        addLocationButton()
         addTempStackView()
         addWeatherDetailsStackView()
         addHourlyForecastStackView()
+        
+    }
+    
+    private func addLocationButton() {
+        view.addSubview(locationButton)
+        locationButton.snp.makeConstraints { make in
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.s)
+            make.top.equalTo(view.snp.top).offset(175)
+            make.width.height.equalTo(40)
+        }
     }
     
     private func addImage() {
@@ -170,17 +189,35 @@ final class MainPageView: UIViewController {
     private func updateUI() {
         tempStackView.updateTemp(
             city: mainPageViewModel.city,
-            temperature: mainPageViewModel.temperature,
-            description: mainPageViewModel.weatherDescription,
-            maxTemp: mainPageViewModel.maxTemp,
-            minTemp: mainPageViewModel.minTemp
+            temperature: mainPageViewModel.getWeatherData(forKey: .temperature),
+            description: mainPageViewModel.getWeatherData(forKey: .weatherDescription),
+            maxTemp: mainPageViewModel.getWeatherData(forKey: .maxTemp),
+            minTemp: mainPageViewModel.getWeatherData(forKey: .minTemp)
         )
         
         weatherDetailsStackView.updateDetails(
-            humidity: mainPageViewModel.humidity,
-            windSpeed: mainPageViewModel.windSpeed,
-            cloud: mainPageViewModel.clouds
+            humidity: mainPageViewModel.getWeatherData(forKey: .humidity),
+            windSpeed: mainPageViewModel.getWeatherData(forKey: .maxTemp),
+            cloud: mainPageViewModel.getWeatherData(forKey: .clouds)
         )
+    }
+    
+    private func addActionLocationButton() {
+        locationButton.addTarget(self, action: #selector(locationButtonPressed), for: .touchUpInside)
+    }
+    
+    @objc private func locationButtonPressed() {
+        if let currentLocation = mainPageViewModel.currentLocation {
+            mainPageViewModel.fetchWeatherByCoordinates(
+                latitude: currentLocation.coordinate.latitude,
+                longitude: currentLocation.coordinate.longitude
+            )
+        } else {
+            mainPageViewModel.onError = { [weak self] errorMessage in
+                self?.showErrorAlert(message: errorMessage)
+            }
+            mainPageViewModel.requestLocation()
+        }
     }
 }
 

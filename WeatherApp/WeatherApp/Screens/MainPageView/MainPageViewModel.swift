@@ -5,25 +5,34 @@
 //  Created by Sandro Gelashvili on 24.11.24.
 //
 
-import Alamofire
-
 import Foundation
 import Alamofire
+import CoreLocation
 
-final class MainPageViewModel {
-    
+final class MainPageViewModel: NSObject {
+    private let locationManager = CLLocationManager()
     private let apiKey = "daa29d04297d8a956e6a6671e018757e"
     private(set) var currentWeather: WeatherResponse?
     private(set) var city: String = "Tbilisi"
-    
+    var currentLocation: CLLocation?
     var onWeatherDataUpdated: (() -> Void)?
     var onError: ((String) -> Void)?
     
-    init() {
-          fetchWeatherData()
+    var latitude: Double? {
+        return currentLocation?.coordinate.latitude
     }
     
-    func fetchWeatherData() {
+    var longitude: Double? {
+        return currentLocation?.coordinate.longitude
+    }
+    
+    override init() {
+        super.init()
+        locationManager.delegate = self
+        checkAuthorizationAndRequestLocation()
+    }
+    
+    func fetchWeatherData(for city: String) {
         let url = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(apiKey)&units=metric"
         
         AF.request(url).responseDecodable(of: WeatherResponse.self) { [weak self] response in
@@ -41,39 +50,89 @@ final class MainPageViewModel {
         }
     }
     
-    func updateCity(newCity: String) {
-            self.city = newCity
-            fetchWeatherData()
+    private func checkAuthorizationAndRequestLocation() {
+        switch locationManager.authorizationStatus {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.requestLocation()
+        case .denied, .restricted:
+            onError?("Location access is denied. Please enable it in Settings.")
+        @unknown default:
+            onError?("An unknown location error occurred.")
         }
-    
-    var temperature: String {
-        let temp = currentWeather?.main.temp ?? 0
-        return "\(Int(temp))°"
-    }
-    var weatherDescription: String {
-        return currentWeather?.weather.first?.description?.capitalized ?? "No description"
     }
     
-    var humidity: String {
-        return "\(currentWeather?.main.humidity ?? 0)%"
+    func fetchWeatherByCoordinates(latitude: Double, longitude: Double) {
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
+            if let error = error {
+                self?.onError?("Error retrieving location information: \(error.localizedDescription)")
+                return
+            }
+            guard let placemark = placemarks?.first, let city = placemark.locality else {
+                self?.onError?("City not found for coordinates.")
+                return
+            }
+            self?.city = city
+            self?.fetchWeatherData(for: city)
+        }
     }
     
-    var windSpeed: String {
-        let wind = currentWeather?.wind.speed ?? 0
-        return "\(Int(wind)) km/h"
+    func getWeatherData(forKey key: WeatherDataKey) -> String {
+        switch key {
+        case .temperature:
+            return "\(Int(currentWeather?.main.temp ?? 0))°"
+        case .weatherDescription:
+            return currentWeather?.weather.first?.description?.capitalized ?? "No description"
+        case .humidity:
+            return "\(currentWeather?.main.humidity ?? 0)%"
+        case .windSpeed:
+            return "\(Int(currentWeather?.wind.speed ?? 0)) km/h"
+        case .clouds:
+            return "\(currentWeather?.clouds.all ?? 0) %"
+        case .minTemp:
+            return "Min: \(Int(currentWeather?.main.tempMin ?? 0))°"
+        case .maxTemp:
+            return "Max: \(Int(currentWeather?.main.tempMax ?? 0))°"
+        }
     }
     
-    var clouds: String {
-        return "\(currentWeather?.clouds.all ?? 0 ) %"
+    enum WeatherDataKey {
+        case temperature, weatherDescription, humidity, windSpeed, clouds, minTemp, maxTemp
     }
     
-    var minTemp: String {
-        let min = currentWeather?.main.tempMin ?? 0
-        return "Min: \(Int(min))°"
+    func updateCity(newCity: String) {
+        self.city = newCity
+        fetchWeatherData(for: newCity)
     }
     
-    var maxTemp: String {
-        let max = currentWeather?.main.tempMax ?? 0
-        return "Max: \(Int(max))°"
+    func requestLocation() {
+        locationManager.requestLocation()
+    }
+}
+
+extension MainPageViewModel: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.requestLocation()
+        case .denied, .restricted:
+            onError?("Location access is denied. Please enable it in Settings.")
+        case .notDetermined:
+            break
+        @unknown default:
+            onError?("An unknown authorization error occurred.")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        fetchWeatherByCoordinates(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        onError?("Failed to get location: \(error.localizedDescription)")
     }
 }
