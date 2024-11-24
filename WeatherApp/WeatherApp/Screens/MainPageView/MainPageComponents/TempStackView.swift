@@ -23,10 +23,10 @@ final class TempStackView: UIView {
         return label
     }()
     
-    private var skyLabel: UILabel = {
+    private var descriptionLabel: UILabel = {
         let label = UILabel()
         label.textColor = .neutralWhite
-        label.font = UIFont.systemFont(ofSize: FontConstants.subtitle, weight: .light)
+        label.font = UIFont.systemFont(ofSize: FontConstants.headline2, weight: .light)
         return label
     }()
     
@@ -80,7 +80,7 @@ final class TempStackView: UIView {
     private func addTempStackView() {
         tempStackView.addArrangedSubview(cityLabel)
         tempStackView.addArrangedSubview(tempLabel)
-        tempStackView.addArrangedSubview(skyLabel)
+        tempStackView.addArrangedSubview(descriptionLabel)
         tempStackView.addArrangedSubview(maxAndMinTempStackView)
         addSubview(tempStackView)
         tempStackView.snp.makeConstraints { make in
@@ -93,10 +93,10 @@ final class TempStackView: UIView {
         maxAndMinTempStackView.addArrangedSubview(minTempLabel)
     }
     
-    func updateTemp(city: String, temperature: String, sky: String, maxTemp: String, minTemp: String) {
+    func updateTemp(city: String, temperature: String, description: String, maxTemp: String, minTemp: String) {
         cityLabel.text = city
         tempLabel.text = temperature
-        skyLabel.text = sky
+        descriptionLabel.text = description
         maxTempLabel.text = maxTemp
         minTempLabel.text = minTemp
     }

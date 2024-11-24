@@ -54,7 +54,7 @@ final class HourlyForecastCell: UICollectionViewCell {
         
         contentView.addSubview(hourlyStackView)
         hourlyStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(10)
+            make.edges.equalToSuperview()
         }
         
         iconImageView.snp.makeConstraints { make in

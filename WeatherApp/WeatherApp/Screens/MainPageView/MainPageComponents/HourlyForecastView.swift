@@ -7,6 +7,12 @@
 
 import UIKit
 
+private enum Constants {
+    static let CollectionItemWidth: CGFloat = 80
+    static let CollectionItemHeight: CGFloat = 100
+    static let CollectionHeight: CGFloat = 120
+}
+
 final class HourlyForecastView: UIView {
     
     private var dateLabel: UILabel = {
@@ -19,9 +25,9 @@ final class HourlyForecastView: UIView {
     private var hourlyCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 12
-        layout.minimumInteritemSpacing = 12
-        layout.itemSize = CGSize(width: 80, height: 100)
+        layout.minimumLineSpacing = Space.s
+        layout.minimumInteritemSpacing = Space.s
+        layout.itemSize = CGSize(width: Constants.CollectionItemWidth, height: Constants.CollectionItemHeight)
         
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = .clear
@@ -29,7 +35,7 @@ final class HourlyForecastView: UIView {
         return collection
     }()
     
-    private let cellIdentifier = "HourlyForecastCell"
+    private let cellIdentifier = String.hourlyCellIdentifier
     private var hourlyForecasts: [(temperature: String, iconName: String, time: String)] = []
     
     private var mainStackView: UIStackView = {
@@ -49,7 +55,7 @@ final class HourlyForecastView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(String.requiredErrorText)
     }
     
     private func setUpUI() {
@@ -64,7 +70,7 @@ final class HourlyForecastView: UIView {
             make.edges.equalToSuperview()
         }
         hourlyCollectionView.snp.makeConstraints { make in
-            make.height.equalTo(100)
+            make.height.equalTo(Constants.CollectionHeight)
             make.leading.equalTo(mainStackView.snp.leading)
             make.trailing.equalTo(mainStackView.snp.trailing)
         }

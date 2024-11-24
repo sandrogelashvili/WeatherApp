@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Alamofire
 
 private enum Constants {
     static let pointX: CGFloat = 0.5
@@ -16,6 +15,7 @@ private enum Constants {
 }
 
 final class MainPageView: UIViewController {
+    private var mainPageViewModel = MainPageViewModel()
     
     private var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
@@ -46,30 +46,31 @@ final class MainPageView: UIViewController {
     }()
     
     let exampleForecasts = [
-                ("15°", "sun", "15:00"),
-                ("16°", "sun", "16:00"),
-                ("14°", "sun", "17:00"),
-                ("12°", "sun", "18:00"),
-                ("14°", "sun", "11:00"),
-                ("15°", "sun", "12:00"),
-                ("16°", "sun", "13:00"),
-                ("17°", "sun", "14:00"),
-                ("18°", "sun", "15:00"),
-                ("19°", "sun", "16:00"),
-                ("11°", "sun", "17:00"),
-            ]
+        ("15°", "sun", "15:00"),
+        ("16°", "sun", "16:00"),
+        ("14°", "sun", "17:00"),
+        ("12°", "sun", "18:00"),
+        ("14°", "sun", "11:00"),
+        ("15°", "sun", "12:00"),
+        ("16°", "sun", "13:00"),
+        ("17°", "sun", "14:00"),
+        ("18°", "sun", "15:00"),
+        ("19°", "sun", "16:00"),
+        ("11°", "sun", "17:00"),
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.searchController = searchController
         definesPresentationContext = true
-        searchController.searchResultsUpdater = self
         navigationItem.hidesBackButton = true
         setGradientBackground()
         customizeSearchBarAppearance()
         setUpUI()
         fetchWeatherData()
+        setupViewModelBindings()
+        searchController.searchBar.delegate = self
     }
     
     private func setGradientBackground() {
@@ -145,29 +146,47 @@ final class MainPageView: UIViewController {
     }
     
     private func fetchWeatherData() {
+        hourlyForecastView.updateHourly(
+            date: "November 23",
+            forecasts: exampleForecasts
+        )
+    }
+    
+    private func setupViewModelBindings() {
+        mainPageViewModel.onWeatherDataUpdated = { [weak self] in
+            self?.updateUI()
+        }
+        mainPageViewModel.onError = { [weak self] errorMessage in
+            self?.showErrorAlert(message: errorMessage)
+        }
+    }
+    
+    private func showErrorAlert(message: String) {
+        let alertController = UIAlertController(title: "Oops", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func updateUI() {
         tempStackView.updateTemp(
-            city: "Tbilisi",
-            temperature: "18°",
-            sky: "Clear",
-            maxTemp: "Max: 20°",
-            minTemp: "Min: 15°"
+            city: mainPageViewModel.city,
+            temperature: mainPageViewModel.temperature,
+            description: mainPageViewModel.weatherDescription,
+            maxTemp: mainPageViewModel.maxTemp,
+            minTemp: mainPageViewModel.minTemp
         )
         
         weatherDetailsStackView.updateDetails(
-            humidity: "67%",
-            windSpeed: "5 km/h",
-            cloud: "0%"
+            humidity: mainPageViewModel.humidity,
+            windSpeed: mainPageViewModel.windSpeed,
+            cloud: mainPageViewModel.clouds
         )
-        
-        hourlyForecastView.updateHourly(date: "November 23", forecasts: exampleForecasts)
     }
 }
 
-extension MainPageView: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else {
-            return
-        }
-        print("Searching for: \(searchText)")
+extension MainPageView: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else { return }
+        mainPageViewModel.updateCity(newCity: searchText)
     }
 }

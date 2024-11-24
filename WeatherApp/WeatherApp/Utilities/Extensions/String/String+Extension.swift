@@ -38,6 +38,7 @@ extension String {
     // MARK: - MainPage Screen
     static let searchFieldPlaceHolder: String = "Search for a city"
     static let searchBarKey: String = "searchField"
+    static let hourlyCellIdentifier: String = "HourlyForecastCell"
     
     // MARK: - General
     static let empty = ""
