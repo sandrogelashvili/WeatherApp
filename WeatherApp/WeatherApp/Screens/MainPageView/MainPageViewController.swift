@@ -17,6 +17,8 @@ private enum Constants {
 final class MainPageViewController: UIViewController {
     private var mainPageViewModel = MainPageViewModel()
     
+    private var dynamicBackgroundView: DynamicBackgroundView!
+    
     private var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.obscuresBackgroundDuringPresentation = false
@@ -66,10 +68,11 @@ final class MainPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "DayColorDark")
+        view.backgroundColor = .clear
         navigationItem.searchController = searchController
         definesPresentationContext = true
         navigationItem.hidesBackButton = true
+        setUpDynamicBackgroundView()
         customizeSearchBarAppearance()
         setUpUI()
         setupViewModelBindings()
@@ -77,6 +80,17 @@ final class MainPageViewController: UIViewController {
         locationButtonAction()
         weeklyForecastButtonAction()
     }
+    
+    private func setUpDynamicBackgroundView() {
+            // Create the DynamicBackgroundView instance with the current weather icon (for example, "01d" for sun)
+            dynamicBackgroundView = DynamicBackgroundView(frame: view.bounds, weatherIcon: "01d")
+            view.addSubview(dynamicBackgroundView)
+        }
+    
+    private func updateBackgroundBasedOnWeather() {
+            guard let icon = mainPageViewModel.currentWeather?.weather.first?.icon else { return }
+            dynamicBackgroundView.updateBackground(for: icon)
+        }
     
     private func customizeSearchBarAppearance() {
         searchController.searchBar.tintColor = UIColor.white
@@ -118,7 +132,7 @@ final class MainPageViewController: UIViewController {
         tempStackView.snp.makeConstraints { make in
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
-            make.top.equalTo(buttonsStackView.snp.bottom).offset(Space.xl2)
+            make.top.equalTo(buttonsStackView.snp.bottom).offset(78)
         }
     }
     
@@ -160,6 +174,8 @@ final class MainPageViewController: UIViewController {
             windSpeed: mainPageViewModel.getWeatherData(forKey: .maxTemp),
             cloud: mainPageViewModel.getWeatherData(forKey: .clouds)
         )
+        
+        updateBackgroundBasedOnWeather()
     }
     
     private func locationButtonAction() {

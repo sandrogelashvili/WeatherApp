@@ -13,11 +13,13 @@ extension UIColor {
     public static var neutralBlack: UIColor { UIColor(hex: 0x1A120B) }
     public static var neutralWhite: UIColor { UIColor(hex: 0xFFFFFF) }
     
-    // MARK: - Yellow
-    public static var yellowPrimary: UIColor { UIColor(hex: 0xe9c429) }
+    // MARK: - Day
+    public static var dayColorDark: UIColor {UIColor(hex: 0x3B6193)}
+    public static var dayColorLight: UIColor {UIColor(hex: 0x89A5C9)}
     
-    // MARK: - Blue
-    public static var bluePrimary: UIColor {UIColor(hex: 0x226ba3)}
+    // MARK: - Night
+    public static var nightColorDark: UIColor {UIColor(hex: 0x05061A)}
+    public static var nightColorLight: UIColor {UIColor(hex: 0x364368)}
 
     // MARK: - Gray
     public static var grayPrimary: UIColor { UIColor(hex: 0x545454) }
