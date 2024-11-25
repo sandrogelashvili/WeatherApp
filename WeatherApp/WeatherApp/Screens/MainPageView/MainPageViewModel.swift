@@ -36,15 +36,16 @@ final class MainPageViewModel: NSObject {
         let url = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(apiKey)&units=metric"
         
         AF.request(url).responseDecodable(of: CurrentWeatherResponse.self) { [weak self] response in
+            guard let self = self else { return }
             switch response.result {
             case .success(let weatherResponse):
-                self?.currentWeather = weatherResponse
-                self?.onWeatherDataUpdated?()
+                self.currentWeather = weatherResponse
+                self.onWeatherDataUpdated?()
             case .failure(let error):
                 if let httpResponse = response.response, httpResponse.statusCode == 404 {
-                    self?.onError?("City not found. Please check the name and try again.")
+                    self.onError?(String.incorrectCityNameError)
                 } else {
-                    self?.onError?("Error fetching weather data: \(error.localizedDescription)")
+                    self.onError?("\(String.fetchingError) \(error.localizedDescription)")
                 }
             }
         }
@@ -57,9 +58,9 @@ final class MainPageViewModel: NSObject {
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager.requestLocation()
         case .denied, .restricted:
-            onError?("Location access is denied. Please enable it in Settings.")
+            onError?(String.locationAccessError)
         @unknown default:
-            onError?("An unknown location error occurred.")
+            onError?(String.unknownLocationError)
         }
     }
     
@@ -68,11 +69,11 @@ final class MainPageViewModel: NSObject {
         let location = CLLocation(latitude: latitude, longitude: longitude)
         geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
             if let error = error {
-                self?.onError?("Error retrieving location information: \(error.localizedDescription)")
+                self?.onError?(" \(String.coordinatesLocationError) \(error.localizedDescription)")
                 return
             }
             guard let placemark = placemarks?.first, let city = placemark.locality else {
-                self?.onError?("City not found for coordinates.")
+                self?.onError?(String.cityWithCoordinatesError)
                 return
             }
             self?.city = city
@@ -119,11 +120,11 @@ extension MainPageViewModel: CLLocationManagerDelegate {
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager.requestLocation()
         case .denied, .restricted:
-            onError?("Location access is denied. Please enable it in Settings.")
+            onError?(String.locationAccessError)
         case .notDetermined:
             break
         @unknown default:
-            onError?("An unknown authorization error occurred.")
+            onError?(String.unknownAuthorisationError)
         }
     }
     
@@ -133,6 +134,6 @@ extension MainPageViewModel: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        onError?("Failed to get location: \(error.localizedDescription)")
+        onError?("\(String.getLocationFailError) \(error.localizedDescription)")
     }
 }

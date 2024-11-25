@@ -27,7 +27,7 @@ final class CustomButton: UIButton {
     }
     
     required init?(coder: NSCoder) {
-        fatalError(String.requiredErrorText)
+        fatalError(String.requiredError)
     }
     
     private func setupUI() {

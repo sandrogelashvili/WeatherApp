@@ -22,7 +22,7 @@ final class OnboardingViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError(String.requiredErrorText)
+        fatalError(String.requiredError)
     }
     
     private var imageView: UIImageView = {

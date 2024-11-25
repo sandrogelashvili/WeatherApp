@@ -11,6 +11,7 @@ extension UIImage {
     static let invisibleIcon = UIImage(systemName: "eye.slash")
     static let visibleIcon = UIImage(systemName: "eye")
     static let locationButtonIcon = UIImage(systemName: "location.circle.fill")
+    static let backButtonIcon = UIImage(systemName: "chevron.left")
     
     static let sunImage = UIImage(named: "sun")
     static let humidityImage = UIImage(named: "HumidityIcon")

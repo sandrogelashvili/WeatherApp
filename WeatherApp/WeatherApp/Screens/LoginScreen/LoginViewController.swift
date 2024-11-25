@@ -117,7 +117,7 @@ final class LoginViewController: UIViewController {
     }
     
     private func handleLoginButton() {
-        let mainPageView = MainPageView()
+        let mainPageView = MainPageViewController()
         navigationController?.pushViewController(mainPageView, animated: true)
     }
     

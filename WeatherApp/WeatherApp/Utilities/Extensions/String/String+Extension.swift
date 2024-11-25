@@ -42,7 +42,27 @@ extension String {
     static let weeklyButtonString: String = "Weekly"
     static let errorAlertTitle: String = "Oops"
     static let errorAlertButtonTitle: String = "OK"
-    // MARK: - General
+    
+    // MARK: - WeeklyForecast Screen
+    static let backButtonText: String = "Back"
+    
+    // MARK: - General, Error Handling
     static let empty = ""
-    static let requiredErrorText: String = "init(coder:) has not been implemented"
+    static let requiredError: String = "init(coder:) has not been implemented"
+    static let incorrectCityNameError: String = "City not found. Please check the name and try again."
+    static let fetchingError: String = "Error fetching weather data:"
+    static let locationAccessError: String = "Location access is denied. Please enable it in Settings."
+    static let unknownLocationError: String = "An unknown location error occurred."
+    static let coordinatesLocationError: String = "Error retrieving location information:"
+    static let cityWithCoordinatesError: String = "City not found for coordinates."
+    static let unknownAuthorisationError: String = "An unknown authorization error occurred."
+    static let  getLocationFailError: String = "Failed to get location:"
+}
+
+extension String {
+    func dateValue() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd"
+        return dateFormatter.date(from: self)
+    }
 }

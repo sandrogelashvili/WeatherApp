@@ -57,7 +57,7 @@ final class CustomTextFieldView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError(String.requiredErrorText)
+        fatalError(String.requiredError)
     }
     
     private func setUpUI() {
