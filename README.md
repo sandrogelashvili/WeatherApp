@@ -2,6 +2,11 @@
 
 A simple weather application that allows users to view current weather conditions and a 5-day, 3-hour forecast for selected cities. The app also provides the ability to access the user's current location.
 
+## Credentials 
+- Use these credentials to log in to the app:
+- **Username**: WeatherApp
+- **Password**: WeatherApp123
+
 ## Features
 
 - **Log in**: Secure user authentication for accessing the app.
@@ -24,15 +29,10 @@ A simple weather application that allows users to view current weather condition
 - **Geocoder**: Used for converting location names into geographical coordinates.
 - **MVVM**: Architectural pattern used for better code organization and separation of concerns.
 
-## Credentials 
-Use these credentials to log in to the app:
-    •    Username: WeatherApp
-    •    Password: WeatherApp123
-
 ## Contact
 
-Aleksandre Gelashvili - gelashvilialeksandre0@gmail.com
-GitHub: https://github.com/sandrogelashvili
+- Aleksandre Gelashvili - gelashvilialeksandre0@gmail.com
+- GitHub: https://github.com/sandrogelashvili
 
 ## Installation
 
