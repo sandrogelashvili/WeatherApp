@@ -24,6 +24,11 @@ A simple weather application that allows users to view current weather condition
 - **Geocoder**: Used for converting location names into geographical coordinates.
 - **MVVM**: Architectural pattern used for better code organization and separation of concerns.
 
+ ## Contact
+
+Aleksandre Gelashvili - gelashvilialeksandre0@gmail.com
+GitHub: https://github.com/sandrogelashvili
+
 ## Installation
 
  **Clone the repository**:
@@ -32,8 +37,3 @@ A simple weather application that allows users to view current weather condition
 
    ```bash
    git clone https://github.com/yourusername/weather-app.git
-
-## Contact
-
-Aleksandre Gelashvili - gelashvilialeksandre0@gmail.com
-GitHub: https://github.com/sandrogelashvili
