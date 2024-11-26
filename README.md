@@ -41,4 +41,4 @@ A simple weather application that allows users to view current weather condition
    Clone the repository to your local machine using Git:
 
    ```bash
-   git clone https://github.com/yourusername/weather-app.git
+   git clone https://github.com/sandrogelashvili/WeatherApp
