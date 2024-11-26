@@ -24,7 +24,12 @@ A simple weather application that allows users to view current weather condition
 - **Geocoder**: Used for converting location names into geographical coordinates.
 - **MVVM**: Architectural pattern used for better code organization and separation of concerns.
 
- ## Contact
+## Credentials 
+Use these credentials to log in to the app:
+    •    Username: WeatherApp
+    •    Password: WeatherApp123
+
+## Contact
 
 Aleksandre Gelashvili - gelashvilialeksandre0@gmail.com
 GitHub: https://github.com/sandrogelashvili
