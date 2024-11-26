@@ -21,15 +21,16 @@ final class CustomTextFieldView: UIView {
         let label = UILabel()
         label.font = .systemFont(ofSize: FontConstants.body2, weight: .medium)
         label.textColor = .neutralBlack
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private var reusableTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = String.usernamePlaceholder
+        textField.backgroundColor = .neutralWhite
+        textField.layer.borderColor = UIColor.grayPrimary.cgColor
+        textField.layer.borderWidth = 0.5
+        textField.layer.cornerRadius = 6
         return textField
     }()
     
@@ -44,7 +45,6 @@ final class CustomTextFieldView: UIView {
         let stack = UIStackView(arrangedSubviews: [reusableLabel, reusableTextField])
         stack.axis = .vertical
         stack.spacing = Space.xs
-        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
     
@@ -54,6 +54,7 @@ final class CustomTextFieldView: UIView {
         super.init(frame: .zero)
         reusableLabel.text = labelText
         setUpUI()
+        addVisibilityButtonAction()
     }
     
     required init?(coder: NSCoder) {
@@ -61,17 +62,39 @@ final class CustomTextFieldView: UIView {
     }
     
     private func setUpUI() {
+        addComponentsStackView()
+        configureTextFieldForType()
+    }
+    
+    private func addComponentsStackView() {
         addSubview(componentsStackView)
         componentsStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+    }
+    
+    private func configureTextFieldForType() {
+        let placeholderAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.graLight2
+        ]
+
         if textFieldType == .password {
-            reusableTextField.placeholder = String.passwordPlaceholder
             reusableTextField.isSecureTextEntry = true
+            reusableTextField.attributedPlaceholder = NSAttributedString(
+                string: String.passwordPlaceholder,
+                attributes: placeholderAttributes
+            )
             reusableTextField.rightViewMode = .always
             reusableTextField.rightView = visibilityIconButton
+        } else if textFieldType == .username {
+            reusableTextField.attributedPlaceholder = NSAttributedString(
+                string: String.usernamePlaceholder,
+                attributes: placeholderAttributes
+            )
         }
+    }
+    
+    private func addVisibilityButtonAction() {
         visibilityIconButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
     }
     

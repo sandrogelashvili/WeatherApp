@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		084F723F2CF4AE8E006716C4 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 084F723E2CF4AE8E006716C4 /* Lottie */; };
 		0884958A2CF1EE28002B592E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 088495892CF1EE28002B592E /* Alamofire */; };
 		08C339AD2CEC9B5200229A48 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08C339AC2CEC9B5200229A48 /* SnapKit */; };
 /* End PBXBuildFile section */
@@ -43,6 +44,7 @@
 			files = (
 				08C339AD2CEC9B5200229A48 /* SnapKit in Frameworks */,
 				0884958A2CF1EE28002B592E /* Alamofire in Frameworks */,
+				084F723F2CF4AE8E006716C4 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +89,7 @@
 			packageProductDependencies = (
 				08C339AC2CEC9B5200229A48 /* SnapKit */,
 				088495892CF1EE28002B592E /* Alamofire */,
+				084F723E2CF4AE8E006716C4 /* Lottie */,
 			);
 			productName = WeatherApp;
 			productReference = 08611B1F2CE797F200DC13C0 /* WeatherApp.app */;
@@ -119,6 +122,7 @@
 			packageReferences = (
 				08C339AB2CEC9B5200229A48 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				088495882CF1EE28002B592E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				084F723D2CF4AE8E006716C4 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08611B202CE797F200DC13C0 /* Products */;
@@ -348,6 +352,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		084F723D2CF4AE8E006716C4 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.0;
+			};
+		};
 		088495882CF1EE28002B592E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
@@ -367,6 +379,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		084F723E2CF4AE8E006716C4 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 084F723D2CF4AE8E006716C4 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
 		088495892CF1EE28002B592E /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 088495882CF1EE28002B592E /* XCRemoteSwiftPackageReference "Alamofire" */;

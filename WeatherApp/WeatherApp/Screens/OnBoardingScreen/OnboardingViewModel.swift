@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class OnboardingViewModel {
     
@@ -28,11 +29,11 @@ final class OnboardingViewModel {
             }
         }
         
-        var imageName: String {
+        var dayImage: UIImage? {
             switch self {
-            case .firstPage: return String.firstPageImageName
-            case .secondPage: return String.secondPageImageName
-            case .thirdPage: return String.thirdPageImageName
+            case .firstPage: return UIImage.sunnyDayImage
+            case .secondPage: return UIImage.snowyDayImage
+            case .thirdPage: return UIImage.rainyDayImage
             }
         }
     }

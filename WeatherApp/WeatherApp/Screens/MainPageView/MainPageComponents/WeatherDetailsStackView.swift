@@ -12,7 +12,7 @@ final class WeatherDetailsStackView: UIView {
     private var humidityImage: UIImageView = {
         let image = UIImageView(image: UIImage.humidityImage)
         image.contentMode = .scaleAspectFill
-        image.tintColor = .white
+        image.tintColor = .neutralWhite
         return image
     }()
     
@@ -26,7 +26,7 @@ final class WeatherDetailsStackView: UIView {
     private var cloudImage: UIImageView = {
         let image = UIImageView(image: UIImage.cloudImage)
         image.contentMode = .scaleAspectFill
-        image.tintColor = .white
+        image.tintColor = .neutralWhite
         return image
     }()
     
@@ -40,7 +40,7 @@ final class WeatherDetailsStackView: UIView {
     private var windSpeedImage: UIImageView = {
         let image = UIImageView(image: UIImage.windImage)
         image.contentMode = .scaleAspectFill
-        image.tintColor = .white
+        image.tintColor = .neutralWhite
         return image
     }()
     

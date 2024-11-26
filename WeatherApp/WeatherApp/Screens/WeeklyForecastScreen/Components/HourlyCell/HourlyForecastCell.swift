@@ -26,7 +26,7 @@ final class HourlyForecastCell: UICollectionViewCell {
     private var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.tintColor = .white
+        imageView.tintColor = .neutralWhite
         return imageView
     }()
     

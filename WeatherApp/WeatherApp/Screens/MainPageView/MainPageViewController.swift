@@ -12,12 +12,17 @@ private enum Constants {
     static let endPointY: CGFloat = 1.0
     static let alphaComponent: CGFloat = 0.3
     static let customSizeButtonStack: CGFloat = 160
+    static let customStackViewPadding: CGFloat = 78
 }
 
 final class MainPageViewController: UIViewController {
     private var mainPageViewModel = MainPageViewModel()
     
-    private var dynamicBackgroundView: DynamicBackgroundView!
+    private lazy var dynamicBackgroundView: DynamicBackgroundView = {
+        let backgroundView = DynamicBackgroundView(frame: view.bounds, weatherIcon: "01d")
+        view.addSubview(backgroundView)
+        return backgroundView
+    }()
     
     private var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
@@ -38,7 +43,7 @@ final class MainPageViewController: UIViewController {
     private var locationButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage.locationButtonIcon, for: .normal)
-        button.tintColor = .white
+        button.tintColor = .neutralWhite
         return button
     }()
     
@@ -47,7 +52,7 @@ final class MainPageViewController: UIViewController {
         button.setTitle(String.weeklyButtonString, for: .normal)
         button.setImage(UIImage.leftArrowButtonIcon, for: .normal)
         button.tintColor = .nightColorDark
-        button.backgroundColor = .white
+        button.backgroundColor = .neutralWhite
         button.layer.cornerRadius = CornerRadius.m
         button.semanticContentAttribute = .forceRightToLeft
         var configuration = UIButton.Configuration.plain()
@@ -72,35 +77,30 @@ final class MainPageViewController: UIViewController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
         navigationItem.hidesBackButton = true
-        setUpDynamicBackgroundView()
         customizeSearchBarAppearance()
         setUpUI()
         setupViewModelBindings()
         searchController.searchBar.delegate = self
-        locationButtonAction()
-        weeklyForecastButtonAction()
+        addButtonsActions()
     }
     
-    private func setUpDynamicBackgroundView() {
-            // Create the DynamicBackgroundView instance with the current weather icon (for example, "01d" for sun)
-            dynamicBackgroundView = DynamicBackgroundView(frame: view.bounds, weatherIcon: "01d")
-            view.addSubview(dynamicBackgroundView)
-        }
-    
     private func updateBackgroundBasedOnWeather() {
-            guard let icon = mainPageViewModel.currentWeather?.weather.first?.icon else { return }
-            dynamicBackgroundView.updateBackground(for: icon)
+        guard let weatherIcon = mainPageViewModel.currentWeather?.weather.first?.icon else {
+            dynamicBackgroundView.updateBackground(for: "01d")
+            return
         }
+        dynamicBackgroundView.updateBackground(for: weatherIcon)
+    }
     
     private func customizeSearchBarAppearance() {
-        searchController.searchBar.tintColor = UIColor.white
-        searchController.searchBar.searchTextField.textColor = UIColor.white
+        searchController.searchBar.tintColor = UIColor.neutralWhite
+        searchController.searchBar.searchTextField.textColor = UIColor.neutralWhite
         searchController.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
             string: String.searchFieldPlaceHolder,
             attributes: [.foregroundColor: UIColor.lightGray]
         )
         if let textField = searchController.searchBar.value(forKey: String.searchBarKey) as? UITextField {
-            textField.backgroundColor = UIColor.white.withAlphaComponent(Constants.alphaComponent)
+            textField.backgroundColor = UIColor.neutralWhite.withAlphaComponent(Constants.alphaComponent)
             let blurEffect = UIBlurEffect(style: .light)
             let blurView = UIVisualEffectView(effect: blurEffect)
             blurView.frame = textField.bounds
@@ -110,10 +110,10 @@ final class MainPageViewController: UIViewController {
     }
     
     private func setUpUI() {
+        view.addSubview(dynamicBackgroundView)
         addButtonsStackView()
         addTempStackView()
         addWeatherDetailsStackView()
-//        addHourlyForecastStackView()
     }
     
     private func addButtonsStackView() {
@@ -132,7 +132,7 @@ final class MainPageViewController: UIViewController {
         tempStackView.snp.makeConstraints { make in
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
-            make.top.equalTo(buttonsStackView.snp.bottom).offset(78)
+            make.top.equalTo(buttonsStackView.snp.bottom).offset(Constants.customStackViewPadding)
         }
     }
     
@@ -160,7 +160,7 @@ final class MainPageViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    private func updateUI() {
+    private func updateTempView() {
         tempStackView.updateTemp(
             city: mainPageViewModel.city,
             temperature: mainPageViewModel.getWeatherData(forKey: .temperature),
@@ -168,18 +168,25 @@ final class MainPageViewController: UIViewController {
             maxTemp: mainPageViewModel.getWeatherData(forKey: .maxTemp),
             minTemp: mainPageViewModel.getWeatherData(forKey: .minTemp)
         )
-        
+    }
+
+    private func updateWeatherDetails() {
         weatherDetailsStackView.updateDetails(
             humidity: mainPageViewModel.getWeatherData(forKey: .humidity),
             windSpeed: mainPageViewModel.getWeatherData(forKey: .maxTemp),
             cloud: mainPageViewModel.getWeatherData(forKey: .clouds)
         )
-        
+    }
+
+    private func updateUI() {
+        updateTempView()
+        updateWeatherDetails()
         updateBackgroundBasedOnWeather()
     }
     
-    private func locationButtonAction() {
+    private func addButtonsActions() {
         locationButton.addTarget(self, action: #selector(locationButtonPressed), for: .touchUpInside)
+        weeklyForecastButton.addTarget(self, action: #selector(weeklyForecastButtonPressed), for: .touchUpInside)
     }
     
     @objc private func locationButtonPressed() {
@@ -196,12 +203,9 @@ final class MainPageViewController: UIViewController {
         }
     }
     
-    private func weeklyForecastButtonAction() {
-        weeklyForecastButton.addTarget(self, action: #selector(weeklyForecastButtonPressed), for: .touchUpInside)
-    }
-    
     @objc private func weeklyForecastButtonPressed() {
-        let weeklyForecastViewController = WeeklyForecastViewController(city: mainPageViewModel.city)
+        guard let iconName = mainPageViewModel.currentWeather?.weather.first?.icon else { return }
+        let weeklyForecastViewController = WeeklyForecastViewController(city: mainPageViewModel.city, iconName: iconName)
         navigationController?.pushViewController(weeklyForecastViewController, animated: true)
     }
 }

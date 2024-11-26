@@ -10,6 +10,8 @@ import SnapKit
 
 private enum Constants {
     static let customImageSize: CGFloat = 270
+    static let titleTopPadding: CGFloat = 440
+    static let pageIndicatorTopPadding: CGFloat = 120
 }
 
 final class OnboardingViewController: UIViewController {
@@ -27,17 +29,15 @@ final class OnboardingViewController: UIViewController {
     
     private var imageView: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFit
-        image.translatesAutoresizingMaskIntoConstraints = false
+        image.contentMode = .scaleAspectFill
         return image
     }()
     
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: FontConstants.headline2, weight: .bold)
-        label.textColor = .neutralBlack
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: FontConstants.headline1, weight: .light)
+        label.textColor = .neutralWhite
         return label
     }()
     
@@ -45,15 +45,13 @@ final class OnboardingViewController: UIViewController {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = .max
-        label.font = .systemFont(ofSize: FontConstants.body1, weight: .regular)
-        label.textColor = .neutralBlack
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: FontConstants.subtitle, weight: .medium)
+        label.textColor = .neutralWhite
         return label
     }()
     
     private var pageIndicator: UIPageControl = {
         let pageIndicator = UIPageControl()
-        pageIndicator.translatesAutoresizingMaskIntoConstraints = false
         pageIndicator.currentPageIndicatorTintColor = .neutralBlack
         pageIndicator.pageIndicatorTintColor = .grayLight
         pageIndicator.isUserInteractionEnabled = false
@@ -69,7 +67,7 @@ final class OnboardingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .neutralWhite
+        addImageView()
         setUpUI()
         configureButtonAction()
         updateUI()
@@ -77,28 +75,28 @@ final class OnboardingViewController: UIViewController {
     }
     
     private func setUpUI() {
-        addImageView()
         addTitleLabel()
         addDescriptionLabel()
         addPageIndicator()
         addOnboardingButton()
+        addShadowToView(titleLabel)
+        addShadowToView(descriptionLabel)
+        addShadowToView(pageIndicator)
     }
     
     private func addImageView() {
-        view.addSubview(imageView)
+        view.insertSubview(imageView, at: .zero)
         imageView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(Space.xl5)
-            make.centerX.equalTo(view)
-            make.width.equalTo(view).multipliedBy(0.75)
-            make.height.equalTo(imageView.snp.width)
+            make.edges.equalToSuperview()
         }
     }
     
     private func addTitleLabel() {
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(Space.xl5)
-            make.centerX.equalTo(view)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(Constants.titleTopPadding)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(Space.m)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-Space.m)
         }
     }
     
@@ -106,14 +104,15 @@ final class OnboardingViewController: UIViewController {
         view.addSubview(descriptionLabel)
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(Space.m)
-            make.centerX.equalTo(view)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(Space.m)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-Space.m)
         }
     }
     
     private func addPageIndicator() {
         view.addSubview(pageIndicator)
         pageIndicator.snp.makeConstraints { make in
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(Space.xl5)
+            make.top.equalTo(titleLabel.snp.bottom).offset(Constants.pageIndicatorTopPadding)
             make.centerX.equalTo(view)
         }
     }
@@ -132,12 +131,18 @@ final class OnboardingViewController: UIViewController {
         let currentPage = viewModel.getCurrentPage()
         titleLabel.text = currentPage.title
         descriptionLabel.text = currentPage.description
-        imageView.image = UIImage(named: currentPage.imageName)
-        
+        imageView.image = currentPage.dayImage
         pageIndicator.numberOfPages = viewModel.pages.count
         pageIndicator.currentPage = viewModel.currentPageIndex
-        
         onboardingButton.configure(title: viewModel.getButtonTitle())
+    }
+    
+    private func addShadowToView(_ view: UIView) {
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 3
+        view.layer.shadowOffset = CGSize(width: .zero, height: 2)
+        view.layer.shadowRadius = 4.0
+        view.layer.masksToBounds = false
     }
     
     private func configureButtonAction() {

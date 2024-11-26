@@ -30,7 +30,7 @@ final class GlassmorphicStackView: UIStackView {
     }
     
     private func applyGlassmorphism(cornerRadius: CGFloat) {
-        self.backgroundColor = UIColor.white.withAlphaComponent(Constants.alphaComponent)
+        self.backgroundColor = UIColor.neutralWhite.withAlphaComponent(Constants.alphaComponent)
         
         let blurEffect = UIBlurEffect(style: .light)
         blurView = UIVisualEffectView(effect: blurEffect)

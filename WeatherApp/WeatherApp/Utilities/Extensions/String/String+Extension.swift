@@ -20,12 +20,12 @@ extension String {
     
     // MARK: - Onboarding Screen
     /// Title
-    static let firstPageTitle: String = "Welcome"
-    static let secondPageTitle: String = "Stay Organized"
+    static let firstPageTitle: String = "Welcome to WeatherApp"
+    static let secondPageTitle: String = "5-Day Forecast"
     static let thirdPageTitle: String = "Get Started"
     /// Description
-    static let firstPageDescription: String = "Discover new features."
-    static let secondPageDescription: String = "Manage tasks with ease."
+    static let firstPageDescription: String = "Get real-time weather updates for your current location or search for cities around the world."
+    static let secondPageDescription: String = "Plan ahead with a detailed 5-day forecast. View weather predictions for the upcoming days."
     static let thirdPageDescription: String = "Let's dive in!"
     /// ImageName
     static let firstPageImageName: String = "SunnyDay"
@@ -56,7 +56,7 @@ extension String {
     static let coordinatesLocationError: String = "Error retrieving location information:"
     static let cityWithCoordinatesError: String = "City not found for coordinates."
     static let unknownAuthorisationError: String = "An unknown authorization error occurred."
-    static let  getLocationFailError: String = "Failed to get location:"
+    static let getLocationFailError: String = "Failed to get location:"
 }
 
 extension String {

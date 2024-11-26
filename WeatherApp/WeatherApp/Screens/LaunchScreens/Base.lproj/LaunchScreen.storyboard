@@ -17,20 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weather" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PCs-Dv-3ZZ">
-                                <rect key="frame" x="16" y="387" width="361" height="78"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="a2H-aP-H30">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="PCs-Dv-3ZZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="328" id="aQ6-BV-RJu"/>
-                            <constraint firstItem="PCs-Dv-3ZZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="gfq-jd-rIK"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="PCs-Dv-3ZZ" secondAttribute="bottom" constant="353" id="gmd-0c-XGD"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PCs-Dv-3ZZ" secondAttribute="trailing" constant="16" id="s7V-QF-bPc"/>
+                            <constraint firstItem="a2H-aP-H30" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="4xy-DG-cTE"/>
+                            <constraint firstItem="a2H-aP-H30" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="aXA-1c-uT9"/>
+                            <constraint firstItem="a2H-aP-H30" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="lGX-w4-Gy9"/>
+                            <constraint firstAttribute="bottom" secondItem="a2H-aP-H30" secondAttribute="bottom" id="qAC-Uy-GiU"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -40,6 +37,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="LaunchImage" width="622" height="1208"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

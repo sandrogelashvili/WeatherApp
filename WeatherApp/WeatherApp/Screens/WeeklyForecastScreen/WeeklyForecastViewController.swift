@@ -14,6 +14,7 @@ private enum Constants {
 class WeeklyForecastViewController: UIViewController {
     private var viewModel = WeeklyForecastViewModel()
     private var city: String
+    private var iconName: String
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -21,7 +22,7 @@ class WeeklyForecastViewController: UIViewController {
         return scrollView
     }()
     
-    private let contentStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = Space.m
@@ -37,8 +38,9 @@ class WeeklyForecastViewController: UIViewController {
         return button
     }()
     
-    init(city: String) {
+    init(city: String, iconName: String) {
         self.city = city
+        self.iconName = iconName
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -48,8 +50,8 @@ class WeeklyForecastViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "DayColorLight")
         setupBindings()
+        addDynamicBackgroundView()
         setUpUI()
         setupNavigationButton()
         viewModel.fetchWeeklyForecast(for: city)
@@ -71,14 +73,23 @@ class WeeklyForecastViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
     
+    private func addDynamicBackgroundView() {
+        let dynamicBackgroundView = DynamicBackgroundView(frame: view.bounds, weatherIcon: iconName)
+        view.insertSubview(dynamicBackgroundView, at: .zero)
+        dynamicBackgroundView.snp.makeConstraints { make in
+            make.edges.equalTo(view)
+        }
+    }
+    
     private func setupScrollView() {
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalToSuperview()
         }
         
-        scrollView.addSubview(contentStackView)
-        contentStackView.snp.makeConstraints { make in
+        scrollView.addSubview(mainStackView)
+        mainStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
         }
@@ -87,7 +98,7 @@ class WeeklyForecastViewController: UIViewController {
     private func addHourlyForecastViews() {
         for _ in 0..<5 {
             let hourlyForecastView = HourlyForecastView()
-            contentStackView.addArrangedSubview(hourlyForecastView)
+            mainStackView.addArrangedSubview(hourlyForecastView)
             hourlyForecastView.snp.makeConstraints { make in
                 make.height.equalTo(Constants.customStackViewHeight)
             }
@@ -103,8 +114,8 @@ class WeeklyForecastViewController: UIViewController {
     private func updateUI() {
         let groupedForecasts = viewModel.getGroupedForecasts()
         for (index, (date, forecasts)) in groupedForecasts.enumerated() {
-            guard index < contentStackView.arrangedSubviews.count,
-                  let hourlyForecastView = contentStackView.arrangedSubviews[index] as? HourlyForecastView else {
+            guard index < mainStackView.arrangedSubviews.count,
+                  let hourlyForecastView = mainStackView.arrangedSubviews[index] as? HourlyForecastView else {
                 continue
             }
             hourlyForecastView.updateHourly(date: date, forecasts: forecasts)

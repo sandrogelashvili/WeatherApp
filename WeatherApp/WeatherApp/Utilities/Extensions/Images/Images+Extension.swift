@@ -13,6 +13,10 @@ extension UIImage {
     static let locationButtonIcon = UIImage(systemName: "location.circle.fill")
     static let backButtonIcon = UIImage(systemName: "chevron.left")
     
+    static let splashScreenImage = UIImage(named: "NatureImage")
+    static let sunnyDayImage = UIImage(named: "SunnyDay")
+    static let rainyDayImage = UIImage(named: "RainyDay")
+    static let snowyDayImage = UIImage(named: "SnowyDay")
     static let sunImage = UIImage(named: "sun")
     static let humidityImage = UIImage(named: "HumidityIcon")
     static let cloudImage = UIImage(named: "CloudIcon")

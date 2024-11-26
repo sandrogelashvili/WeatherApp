@@ -15,6 +15,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene = windowScene
+        
+        let splashScreenVC = SplashScreenViewController()
+        window?.rootViewController = splashScreenVC
+        window?.makeKeyAndVisible()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.showNextScreen()
+        }
+    }
+    
+    private func showNextScreen() {
         let hasLaunchedBefore = UserDefaults.standard.bool(forKey: LaunchKey.hasLaunchedBefore)
         let initialViewController: UIViewController
         
@@ -29,9 +41,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController(rootViewController: initialViewController)
         navigationController.setNavigationBarHidden(false, animated: false)
         
-        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        window?.windowScene = windowScene
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+        self.window?.rootViewController = navigationController
     }
 }
