@@ -9,6 +9,9 @@ DerivedData/
 .swiftpm/
 .build/
 
+# Ignore Swift Package Manager files
+**/Package.resolved
+
 # Local Environment Configurations
 .env.local
 
