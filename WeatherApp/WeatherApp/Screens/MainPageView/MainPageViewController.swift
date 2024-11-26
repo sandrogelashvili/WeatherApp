@@ -254,7 +254,7 @@ final class MainPageViewController: UIViewController {
     
     @objc private func weeklyForecastButtonPressed() {
         guard let iconName = mainPageViewModel.currentWeather?.weather.first?.icon else { return }
-        let weeklyForecastViewController = WeeklyForecastViewController(city: mainPageViewModel.city, iconName: iconName)
+        let weeklyForecastViewController = WeeklyForecastViewController(city: mainPageViewModel.getCityName(), iconName: iconName)
         navigationController?.pushViewController(weeklyForecastViewController, animated: true)
     }
 }

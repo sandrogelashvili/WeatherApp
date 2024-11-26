@@ -134,6 +134,10 @@ final class MainPageViewModel: NSObject {
     func requestLocation() {
         locationManager.requestLocation()
     }
+    
+    func getCityName() -> String {
+        currentWeather?.name ?? .empty
+    }
 }
 
 extension MainPageViewModel: CLLocationManagerDelegate {
