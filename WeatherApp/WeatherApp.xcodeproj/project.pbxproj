@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		084F723F2CF4AE8E006716C4 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 084F723E2CF4AE8E006716C4 /* Lottie */; };
+		0884958A2CF1EE28002B592E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 088495892CF1EE28002B592E /* Alamofire */; };
+		08C339AD2CEC9B5200229A48 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08C339AC2CEC9B5200229A48 /* SnapKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		08611B1F2CE797F200DC13C0 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +42,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08C339AD2CEC9B5200229A48 /* SnapKit in Frameworks */,
+				0884958A2CF1EE28002B592E /* Alamofire in Frameworks */,
+				084F723F2CF4AE8E006716C4 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +87,9 @@
 			);
 			name = WeatherApp;
 			packageProductDependencies = (
+				08C339AC2CEC9B5200229A48 /* SnapKit */,
+				088495892CF1EE28002B592E /* Alamofire */,
+				084F723E2CF4AE8E006716C4 /* Lottie */,
 			);
 			productName = WeatherApp;
 			productReference = 08611B1F2CE797F200DC13C0 /* WeatherApp.app */;
@@ -108,6 +120,9 @@
 			mainGroup = 08611B162CE797F100DC13C0;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				08C339AB2CEC9B5200229A48 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				088495882CF1EE28002B592E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				084F723D2CF4AE8E006716C4 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08611B202CE797F200DC13C0 /* Products */;
@@ -147,6 +162,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 863JKHR7M8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -162,7 +178,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -173,6 +189,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 863JKHR7M8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -188,7 +205,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -333,6 +350,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		084F723D2CF4AE8E006716C4 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.0;
+			};
+		};
+		088495882CF1EE28002B592E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.1;
+			};
+		};
+		08C339AB2CEC9B5200229A48 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		084F723E2CF4AE8E006716C4 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 084F723D2CF4AE8E006716C4 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		088495892CF1EE28002B592E /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 088495882CF1EE28002B592E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		08C339AC2CEC9B5200229A48 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08C339AB2CEC9B5200229A48 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 08611B172CE797F100DC13C0 /* Project object */;
 }
