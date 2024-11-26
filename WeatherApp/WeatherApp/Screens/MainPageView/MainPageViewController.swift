@@ -47,6 +47,13 @@ final class MainPageViewController: UIViewController {
         return button
     }()
     
+    private var loadingIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .neutralWhite
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+    
     private var weeklyForecastButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(String.weeklyButtonString, for: .normal)
@@ -114,6 +121,7 @@ final class MainPageViewController: UIViewController {
         addButtonsStackView()
         addTempStackView()
         addWeatherDetailsStackView()
+        addLoadingIndicator()
     }
     
     private func addButtonsStackView() {
@@ -145,12 +153,29 @@ final class MainPageViewController: UIViewController {
         }
     }
     
+    private func addLoadingIndicator() {
+        view.addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+    }
+    
     private func setupViewModelBindings() {
         mainPageViewModel.onWeatherDataUpdated = { [weak self] in
             self?.updateUI()
         }
         mainPageViewModel.onError = { [weak self] errorMessage in
             self?.showErrorAlert(message: errorMessage)
+        }
+        
+        mainPageViewModel.isLoading = { [weak self] isLoading in
+            DispatchQueue.main.async {
+                if isLoading {
+                    self?.loadingIndicator.startAnimating()
+                } else {
+                    self?.loadingIndicator.stopAnimating()
+                }
+            }
         }
     }
     
@@ -169,7 +194,7 @@ final class MainPageViewController: UIViewController {
             minTemp: mainPageViewModel.getWeatherData(forKey: .minTemp)
         )
     }
-
+    
     private func updateWeatherDetails() {
         weatherDetailsStackView.updateDetails(
             humidity: mainPageViewModel.getWeatherData(forKey: .humidity),
@@ -177,7 +202,7 @@ final class MainPageViewController: UIViewController {
             cloud: mainPageViewModel.getWeatherData(forKey: .clouds)
         )
     }
-
+    
     private func updateUI() {
         updateTempView()
         updateWeatherDetails()

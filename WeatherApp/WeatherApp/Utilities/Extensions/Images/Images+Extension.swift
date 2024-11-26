@@ -17,6 +17,7 @@ extension UIImage {
     static let sunnyDayImage = UIImage(named: "SunnyDay")
     static let rainyDayImage = UIImage(named: "RainyDay")
     static let snowyDayImage = UIImage(named: "SnowyDay")
+    static let loginImage = UIImage(named: "LoginPhoto")
     static let sunImage = UIImage(named: "sun")
     static let humidityImage = UIImage(named: "HumidityIcon")
     static let cloudImage = UIImage(named: "CloudIcon")

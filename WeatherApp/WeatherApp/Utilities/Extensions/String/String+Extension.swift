@@ -60,9 +60,10 @@ extension String {
 }
 
 extension String {
-    func dateValue() -> Date? {
+    func dateValue(format: String) -> Date? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd"
+        dateFormatter.dateFormat = format
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
         return dateFormatter.date(from: self)
     }
 }

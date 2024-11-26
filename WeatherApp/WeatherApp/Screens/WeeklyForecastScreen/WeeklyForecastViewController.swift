@@ -11,7 +11,7 @@ private enum Constants {
     static let customStackViewHeight: CGFloat = 200
 }
 
-class WeeklyForecastViewController: UIViewController {
+final class WeeklyForecastViewController: UIViewController {
     private var viewModel = WeeklyForecastViewModel()
     private var city: String
     private var iconName: String
@@ -38,6 +38,13 @@ class WeeklyForecastViewController: UIViewController {
         return button
     }()
     
+    private var loadingIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .neutralWhite
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+    
     init(city: String, iconName: String) {
         self.city = city
         self.iconName = iconName
@@ -58,8 +65,9 @@ class WeeklyForecastViewController: UIViewController {
     }
     
     private func setUpUI() {
-        setupScrollView()
+        addScrollView()
         addHourlyForecastViews()
+        addLoadingIndicator()
     }
     
     private func setupNavigationButton() {
@@ -81,7 +89,14 @@ class WeeklyForecastViewController: UIViewController {
         }
     }
     
-    private func setupScrollView() {
+    private func addLoadingIndicator() {
+        view.addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+    }
+    
+    private func addScrollView() {
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
@@ -109,6 +124,26 @@ class WeeklyForecastViewController: UIViewController {
         viewModel.onForecastDataUpdated = { [weak self] in
             self?.updateUI()
         }
+        
+        viewModel.onError = { [weak self] errorMessage in
+            self?.showErrorAlert(message: errorMessage)
+        }
+        
+        viewModel.isLoading = { [weak self] isLoading in
+            DispatchQueue.main.async {
+                if isLoading {
+                    self?.loadingIndicator.startAnimating()
+                } else {
+                    self?.loadingIndicator.stopAnimating()
+                }
+            }
+        }
+    }
+    
+    private func showErrorAlert(message: String) {
+        let alertController = UIAlertController(title: String.errorAlertTitle, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: String.errorAlertButtonTitle, style: .default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     private func updateUI() {

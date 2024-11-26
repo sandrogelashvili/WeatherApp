@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct WeeklyForecastModel: Decodable {
+struct WeeklyForecastModel: Codable {
     let list: [Forecast]
 }
 
-struct Forecast: Decodable {
-    let dtTxt: String
+struct Forecast: Codable {
+    let dtTxt: String?
     let main: Main
     let weather: [ForecastWeather]
     
@@ -25,7 +25,7 @@ struct Forecast: Decodable {
     var formattedDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        guard let date = dateFormatter.date(from: dtTxt) else { return "" }
+        guard let date = dateFormatter.date(from: dtTxt ?? .empty) else { return "" }
         dateFormatter.dateFormat = "MMM dd"
         return dateFormatter.string(from: date)
     }
@@ -33,17 +33,17 @@ struct Forecast: Decodable {
     var formattedTime: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        guard let date = dateFormatter.date(from: dtTxt) else { return "" }
+        guard let date = dateFormatter.date(from: dtTxt ?? .empty) else { return "" }
         dateFormatter.dateFormat = "HH:mm"
         return dateFormatter.string(from: date)
     }
 }
 
-struct Main: Decodable {
-    let temp: Double
+struct Main: Codable {
+    let temp: Double?
 }
 
-struct ForecastWeather: Decodable {
-    let icon: String
+struct ForecastWeather: Codable {
+    let icon: String?
 }
 

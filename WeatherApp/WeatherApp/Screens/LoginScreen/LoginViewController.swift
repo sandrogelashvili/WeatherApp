@@ -14,11 +14,18 @@ private enum Constants {
 
 final class LoginViewController: UIViewController {
     
+    private var loginImageView: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.image = UIImage.loginImage
+        return image
+    }()
+    
     private var welcomeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: FontConstants.headline3, weight: .semibold)
-        label.textColor = .neutralBlack
+        label.font = .systemFont(ofSize: FontConstants.headline1, weight: .regular)
+        label.textColor = .white
         label.text = String.welcomeLabelText
         return label
     }()
@@ -26,8 +33,8 @@ final class LoginViewController: UIViewController {
     private var enterDetailsLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: FontConstants.body1, weight: .regular)
-        label.textColor = .neutralBlack
+        label.font = .systemFont(ofSize: FontConstants.subtitle, weight: .regular)
+        label.textColor = .neutralWhite
         label.text = String.detailsLabelText
         return label
     }()
@@ -71,6 +78,14 @@ final class LoginViewController: UIViewController {
         addUsernameTextField()
         addPasswordTextField()
         addLoginButton()
+        addLoginImageView()
+    }
+    
+    private func addLoginImageView() {
+        view.insertSubview(loginImageView, at: .zero)
+        loginImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     private func addStackView() {
@@ -87,7 +102,7 @@ final class LoginViewController: UIViewController {
         usernameTextFieldView.snp.makeConstraints { make in
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
-            make.top.equalTo(stackView.snp.bottom).offset(Space.xl4)
+            make.top.equalTo(stackView.snp.bottom).offset(Space.xl5)
         }
     }
     

@@ -20,7 +20,7 @@ final class CustomTextFieldView: UIView {
     private var reusableLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: FontConstants.body2, weight: .medium)
-        label.textColor = .neutralBlack
+        label.textColor = .neutralWhite
         return label
     }()
     
