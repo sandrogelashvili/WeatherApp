@@ -27,10 +27,6 @@ extension String {
     static let firstPageDescription: String = "Get real-time weather updates for your current location or search for cities around the world."
     static let secondPageDescription: String = "Plan ahead with a detailed 5-day forecast. View weather predictions for the upcoming days."
     static let thirdPageDescription: String = "Let's dive in!"
-    /// ImageName
-    static let firstPageImageName: String = "SunnyDay"
-    static let secondPageImageName: String = "SnowyDay"
-    static let thirdPageImageName: String = "RainyDay"
     
     static let loginButtonTitle: String = "Log In"
     static let continueButtonTitle: String = "Continue"
@@ -39,15 +35,16 @@ extension String {
     static let searchFieldPlaceHolder: String = "Search for a city"
     static let searchBarKey: String = "searchField"
     static let hourlyCellIdentifier: String = "HourlyForecastCell"
-    static let weeklyButtonString: String = "Weekly"
-    static let errorAlertTitle: String = "Oops"
-    static let errorAlertButtonTitle: String = "OK"
+    static let weeklyButtonText: String = "Weekly"
+    static let logoutText: String = " Log out"
     
     // MARK: - WeeklyForecast Screen
     static let backButtonText: String = "Back"
     
     // MARK: - General, Error Handling
     static let empty = ""
+    static let usernameError: String = "Incorrect username"
+    static let passwordError: String = "Incorrect password"
     static let requiredError: String = "init(coder:) has not been implemented"
     static let incorrectCityNameError: String = "City not found. Please check the name and try again."
     static let fetchingError: String = "Error fetching weather data:"
@@ -57,6 +54,8 @@ extension String {
     static let cityWithCoordinatesError: String = "City not found for coordinates."
     static let unknownAuthorisationError: String = "An unknown authorization error occurred."
     static let getLocationFailError: String = "Failed to get location:"
+    static let errorAlertTitle: String = "Oops"
+    static let errorAlertButtonTitle: String = "OK"
 }
 
 extension String {

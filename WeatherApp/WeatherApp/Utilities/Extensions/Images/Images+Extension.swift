@@ -12,6 +12,7 @@ extension UIImage {
     static let visibleIcon = UIImage(systemName: "eye")
     static let locationButtonIcon = UIImage(systemName: "location.circle.fill")
     static let backButtonIcon = UIImage(systemName: "chevron.left")
+    static let logoutButtonIcon = UIImage(systemName: "arrow.left.to.line.circle.fill")
     
     static let splashScreenImage = UIImage(named: "NatureImage")
     static let sunnyDayImage = UIImage(named: "SunnyDay")

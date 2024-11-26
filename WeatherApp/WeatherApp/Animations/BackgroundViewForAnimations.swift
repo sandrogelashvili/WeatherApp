@@ -38,11 +38,11 @@ final class DynamicBackgroundView: UIView {
         "11d": [("FullCloudsDark", .clouds), ("LottieRain", .rain), ("LottieThunder", .thunder)],
         "11n": [("FullCloudsDark", .clouds), ("LottieRain", .rain), ("LottieThunder", .thunder)],
         // snow
-        "13d": [("LottieSnow", .snow), ("LottieClouds", .clouds)],
-        "13n": [("LottieSnow", .snow), ("LottieClouds", .clouds)],
+        "13d": [("LottieSnow", .snow), ("FullCloudsLight", .clouds)],
+        "13n": [("LottieSnow", .snow), ("FullCloudsLight", .clouds)],
         // mist
-        "50d": [("LottieClouds", .clouds)],
-        "50n": [("LottieClouds", .clouds)]
+        "50d": [("FullCloudsLight", .clouds)],
+        "50n": [("FullCloudsLight", .clouds)]
     ]
     
     enum AnimationLayout {

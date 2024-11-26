@@ -57,7 +57,11 @@ final class MainPageViewModel: NSObject {
                    }
                    self.onWeatherDataUpdated?()
                case .failure(let error):
-                   self.onError?("\(String.fetchingError) \(error.localizedDescription)")
+                   if let httpResponse = response.response, httpResponse.statusCode == 404 {
+                       self.onError?(String.incorrectCityNameError)
+                   } else {
+                       self.onError?("\(String.fetchingError) \(error.localizedDescription)")
+                   }
                }
                self.isLoading?(false)
            }

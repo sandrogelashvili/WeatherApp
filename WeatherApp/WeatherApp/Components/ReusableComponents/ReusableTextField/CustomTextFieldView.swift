@@ -12,6 +12,11 @@ enum TextFieldType {
     case username, password
 }
 
+private enum Constants {
+    static let customBorderWidht: CGFloat = 0.5
+    static let customCornerRadius: CGFloat = 6
+}
+
 final class CustomTextFieldView: UIView {
     
     private var textFieldType: TextFieldType
@@ -29,8 +34,9 @@ final class CustomTextFieldView: UIView {
         textField.borderStyle = .roundedRect
         textField.backgroundColor = .neutralWhite
         textField.layer.borderColor = UIColor.grayPrimary.cgColor
-        textField.layer.borderWidth = 0.5
-        textField.layer.cornerRadius = 6
+        textField.textColor = .neutralBlack
+        textField.layer.borderWidth = Constants.customBorderWidht
+        textField.layer.cornerRadius = Constants.customCornerRadius
         return textField
     }()
     
@@ -41,13 +47,21 @@ final class CustomTextFieldView: UIView {
         return button
     }()
     
+    private var errorLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: FontConstants.caption, weight: .regular)
+        label.textColor = .red
+        label.text = .empty
+        label.isHidden = true
+        return label
+    }()
+    
     private lazy var componentsStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [reusableLabel, reusableTextField])
+        let stack = UIStackView(arrangedSubviews: [reusableLabel, reusableTextField, errorLabel])
         stack.axis = .vertical
         stack.spacing = Space.xs
         return stack
     }()
-    
     
     init(type: TextFieldType = .username, labelText: String = .empty) {
         self.textFieldType = type
@@ -77,7 +91,7 @@ final class CustomTextFieldView: UIView {
         let placeholderAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.graLight2
         ]
-
+        
         if textFieldType == .password {
             reusableTextField.isSecureTextEntry = true
             reusableTextField.attributedPlaceholder = NSAttributedString(
@@ -113,5 +127,15 @@ final class CustomTextFieldView: UIView {
     
     func getLabel() -> UILabel {
         return reusableLabel
+    }
+    
+    func showErrorMessage(_ message: String) {
+        errorLabel.text = message
+        errorLabel.isHidden = false
+    }
+    
+    func hideErrorMessage() {
+        errorLabel.text = .empty
+        errorLabel.isHidden = true
     }
 }

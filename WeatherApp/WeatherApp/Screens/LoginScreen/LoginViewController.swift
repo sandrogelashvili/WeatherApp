@@ -12,6 +12,11 @@ private enum Constants {
     static let customStackSpacing: CGFloat = 68
 }
 
+private enum LoginConstants {
+    static let validUsername = "WeatherApp"
+    static let validPassword = "WeatherApp123"
+}
+
 final class LoginViewController: UIViewController {
     
     private var loginImageView: UIImageView = {
@@ -57,6 +62,14 @@ final class LoginViewController: UIViewController {
         labelText: String.passwordLabelText
     )
     
+    private lazy var textFieldsStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [usernameTextFieldView, passwordTextFieldView])
+        stackView.axis = .vertical
+        stackView.spacing = Space.l
+        stackView.alignment = .fill
+        return stackView
+    }()
+    
     private var loginButton: CustomButton = {
         let button = CustomButton(
             title: String.loginButtonTitle
@@ -75,8 +88,7 @@ final class LoginViewController: UIViewController {
     
     private func setUpUI() {
         addStackView()
-        addUsernameTextField()
-        addPasswordTextField()
+        addTextFieldsStackView()
         addLoginButton()
         addLoginImageView()
     }
@@ -97,21 +109,12 @@ final class LoginViewController: UIViewController {
         }
     }
     
-    private func addUsernameTextField() {
-        view.addSubview(usernameTextFieldView)
-        usernameTextFieldView.snp.makeConstraints { make in
+    private func addTextFieldsStackView() {
+        view.addSubview(textFieldsStackView)
+        textFieldsStackView.snp.makeConstraints { make in
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
             make.top.equalTo(stackView.snp.bottom).offset(Space.xl5)
-        }
-    }
-    
-    private func addPasswordTextField() {
-        view.addSubview(passwordTextFieldView)
-        passwordTextFieldView.snp.makeConstraints { make in
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
-            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
-            make.top.equalTo(usernameTextFieldView.snp.bottom).offset(Space.l)
         }
     }
     
@@ -132,8 +135,29 @@ final class LoginViewController: UIViewController {
     }
     
     private func handleLoginButton() {
-        let mainPageView = MainPageViewController()
-        navigationController?.pushViewController(mainPageView, animated: true)
+        let username = usernameTextFieldView.getTextField().text ?? .empty
+        let password = passwordTextFieldView.getTextField().text ?? .empty
+        var isValid = true
+    
+        if username != LoginConstants.validUsername {
+            usernameTextFieldView.showErrorMessage(String.usernameError)
+            isValid = false
+        } else {
+            usernameTextFieldView.hideErrorMessage()
+        }
+        
+        if password != LoginConstants.validPassword {
+            passwordTextFieldView.showErrorMessage(String.passwordError)
+            isValid = false
+        } else {
+            passwordTextFieldView.hideErrorMessage()
+        }
+        
+        if isValid {
+            let mainPageView = MainPageViewController()
+            navigationController?.pushViewController(mainPageView, animated: true)
+            navigationController?.viewControllers.removeAll { $0 is LoginViewController }
+        }
     }
     
     private func addTapGestureToDismissKeyboard() {

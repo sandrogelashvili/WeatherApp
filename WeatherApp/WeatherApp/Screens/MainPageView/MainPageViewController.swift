@@ -47,16 +47,9 @@ final class MainPageViewController: UIViewController {
         return button
     }()
     
-    private var loadingIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.color = .neutralWhite
-        activityIndicator.hidesWhenStopped = true
-        return activityIndicator
-    }()
-    
     private var weeklyForecastButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle(String.weeklyButtonString, for: .normal)
+        button.setTitle(String.weeklyButtonText, for: .normal)
         button.setImage(UIImage.leftArrowButtonIcon, for: .normal)
         button.tintColor = .nightColorDark
         button.backgroundColor = .neutralWhite
@@ -76,6 +69,21 @@ final class MainPageViewController: UIViewController {
     private var weatherDetailsStackView: WeatherDetailsStackView = {
         let stackView = WeatherDetailsStackView()
         return stackView
+    }()
+    
+    private var loadingIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .neutralWhite
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+    
+    private var backButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage.logoutButtonIcon, for: .normal)
+        button.setTitle(String.logoutText, for: .normal)
+        button.tintColor = .neutralWhite
+        return button
     }()
     
     override func viewDidLoad() {
@@ -122,6 +130,7 @@ final class MainPageViewController: UIViewController {
         addTempStackView()
         addWeatherDetailsStackView()
         addLoadingIndicator()
+        addBackButton()
     }
     
     private func addButtonsStackView() {
@@ -150,6 +159,14 @@ final class MainPageViewController: UIViewController {
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-Space.m)
             make.top.equalTo(tempStackView.snp.bottom).offset(Space.xl3)
+        }
+    }
+    
+    private func addBackButton() {
+        view.addSubview(backButton)
+        backButton.snp.makeConstraints { make in
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(Space.m)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-Space.xl5)
         }
     }
     
@@ -212,6 +229,13 @@ final class MainPageViewController: UIViewController {
     private func addButtonsActions() {
         locationButton.addTarget(self, action: #selector(locationButtonPressed), for: .touchUpInside)
         weeklyForecastButton.addTarget(self, action: #selector(weeklyForecastButtonPressed), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+    }
+    
+    @objc private func backButtonPressed() {
+        let loginViewController = LoginViewController()
+        navigationController?.pushViewController(loginViewController, animated: true)
+        navigationController?.viewControllers.removeAll { $0 is MainPageViewController }
     }
     
     @objc private func locationButtonPressed() {
